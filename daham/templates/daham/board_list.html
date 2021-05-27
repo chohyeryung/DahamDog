@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}글 목록{% endblock %}
+
+{% block content %}
+    {% if board_list %}
+        <ul>
+            {% for board in board_list %}
+                <li><a href="/daham/{{ board.id }}/">{{ board.title }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}
