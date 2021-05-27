@@ -3,13 +3,13 @@ from django.db import models
 
 class Board(models.Model):
     title = models.CharField(max_length=200, null=True)
-    contents = models.TextField()
+    content = models.TextField()
     created_date = models.DateTimeField(auto_now_add=True)
 
 
 class Comment(models.Model):
     board = models.ForeignKey(Board, on_delete=models.CASCADE)
-    contents = models.CharField(max_length=200, null=True)
+    content = models.CharField(max_length=200, null=True)
     created_date = models.DateTimeField(auto_now_add=True)
 
 
