@@ -9,5 +9,7 @@
                 <li><a href="{% url 'daham:detail' board.id %}">{{ board.title }}</a></li>
             {% endfor %}
         </ul>
+    {% else %}
+        없음
     {% endif %}
 {% endblock %}
