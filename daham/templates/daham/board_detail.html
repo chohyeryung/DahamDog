@@ -6,6 +6,7 @@
     <h2>{{ board.title }}</h2>
 
     <h4>{{ board.content }}</h4>
+    <h4>{{ board.created_date }}</h4>
 
     <form action="{% url 'daham:comment_create' board.id %}" method="post">
         {% csrf_token %}

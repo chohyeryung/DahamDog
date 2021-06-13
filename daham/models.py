@@ -13,6 +13,6 @@ class Comment(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
 
 
-class Application(models.Model):
+class Application(models.Model):    #??
     board = models.ForeignKey(Board, on_delete=models.CASCADE)
     commented = models.DateTimeField(auto_now_add=True)

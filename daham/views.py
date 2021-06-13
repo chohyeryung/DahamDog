@@ -10,6 +10,7 @@ def index(request):
     context = {'board_list': board_list}
 
     return render(request, 'daham/board_list.html', context)
+    # return render(request, 'daham/board_list.html')
 
 def board_create(request):
     if request.method == 'POST':
