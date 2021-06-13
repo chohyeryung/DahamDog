@@ -1,14 +1,20 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block title %}글 목록{% endblock %}
 
 {% block content %}
     {% if board_list %}
-        <ul>
+        <table>
             {% for board in board_list %}
-                <li><a href="{% url 'daham:detail' board.id %}">{{ board.title }}</a></li>
+                <tr>
+                    <td>
+                    <a href="{% url 'daham:detail' board.id %}">{{ board.title }}</a>
+                    </td>
+                </tr>
             {% endfor %}
-        </ul>
+        </table>
     {% endif %}
 
     <a href="{% url 'daham:board_create' %}">글 등록</a>
