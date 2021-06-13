@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.utils import timezone
 
+from daham.forms import BoardForm
 from daham.models import Board
 
 
@@ -9,6 +10,19 @@ def index(request):
     context = {'board_list': board_list}
 
     return render(request, 'daham/board_list.html', context)
+
+def board_create(request):
+    if request.method == 'POST':
+        form = BoardForm(request.POST)
+        if form.is_valid():
+            board = form.save(commit=False)
+            board.created_date = timezone.now()
+            board.save()
+            return redirect('daham:index')
+    else:
+        form = BoardForm()
+    context = {'form': form}
+    return render(request, 'daham/board_form.html', context)
 
 
 def detail(request, board_id):
