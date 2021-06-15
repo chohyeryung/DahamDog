@@ -1,7 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 
-from daham.forms import BoardForm
+from daham.forms import BoardForm, CommentForm
 from daham.models import Board
 
 
@@ -34,8 +34,22 @@ def detail(request, board_id):
 
 
 def comment_create(request, board_id):
-    board = Board.objects.get(id=board_id)
-    if request.POST.get('content') != '':
-        board.comment_set.create(content=request.POST.get('content'), created_date=timezone.now())
+    board = get_object_or_404(Board, pk=board_id)
 
-    return redirect('daham:detail', board_id=board.id)
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.board = board
+            comment.save()
+            return redirect('daham:detail', board_id=board.id)
+    else:
+        form = CommentForm()
+    context = {'board': board, 'form': form}
+    return render(request, 'daham/board_detail.html', context)
+
+    # board = Board.objects.get(id=board_id)
+    # if request.POST.get('content') != '':
+    #     board.comment_set.create(content=request.POST.get('content'), created_date=timezone.now())
+    #
+    # return redirect('daham:detail', board_id=board.id)

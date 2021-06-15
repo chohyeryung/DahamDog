@@ -8,14 +8,14 @@
     {% if board_list %}
         <table>
             {% for board in board_list %}
-                <tr>
-                    <td>
-                    <a href="{% url 'daham:detail' board.id %}">{{ board.title }}</a>
+                <tr class="card border-info mb-3">
+                    <td class="card-body text-info">
+                    <a href="{% url 'daham:detail' board.id %}" class="card-title board-title">{{ board.title }}</a>
                     </td>
                 </tr>
             {% endfor %}
         </table>
     {% endif %}
 
-    <a href="{% url 'daham:board_create' %}">글 등록</a>
+    <a href="{% url 'daham:board_create' %}" class="btn btn-primary btn-lg">글 등록</a>
 {% endblock %}
