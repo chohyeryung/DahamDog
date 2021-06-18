@@ -2,11 +2,12 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 
 from daham.forms import BoardForm, CommentForm
-from daham.models import Board
+from daham.models import Board, Application
 
 
 def index(request):
     board_list = Board.objects.order_by('-created_date')
+
     context = {'board_list': board_list}
 
     return render(request, 'daham/board_list.html', context)
@@ -53,3 +54,11 @@ def comment_create(request, board_id):
     #     board.comment_set.create(content=request.POST.get('content'), created_date=timezone.now())
     #
     # return redirect('daham:detail', board_id=board.id)
+
+def application_create(request, board_id):
+    board = get_object_or_404(Board, pk=board_id)
+    Application.objects.create(board=board, created_date=timezone.now())
+    board.save()
+
+    return redirect('daham:index')
+

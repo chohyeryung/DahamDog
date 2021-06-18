@@ -12,6 +12,11 @@
                     <td class="card-body text-info">
                     <a href="{% url 'daham:detail' board.id %}" class="card-title board-title">{{ board.title }}</a>
                     </td>
+                    {% if board.application_set.all.count %}
+                        <td>{{ board.application_set.all.count }}명의 신청자</td>
+                    {% else %}
+                        <td>지원자가 없습니다</td>
+                    {% endif %}
                 </tr>
             {% endfor %}
         </table>

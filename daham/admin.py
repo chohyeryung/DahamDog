@@ -4,3 +4,4 @@ from daham.models import *
 
 admin.site.register(Board)
 admin.site.register(Comment)
+admin.site.register(Application)

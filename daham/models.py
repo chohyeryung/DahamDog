@@ -11,6 +11,7 @@ class Board(models.Model):
     # user = models.ForeignKey(User, on_delete=models.CASCADE)  #유저
     title = models.CharField(max_length=200, null=True)
     content = models.TextField()
+    # applications = models.PositiveIntegerField(verbose_name='지원자수', null=True)
     created_date = models.DateTimeField(auto_now_add=True)
 
 
@@ -23,6 +24,5 @@ class Comment(models.Model):
 
 class Application(models.Model):
     board = models.ForeignKey(Board, on_delete=models.CASCADE)
-
     # user = models.ForeignKey(User, on_delete=models.CASCADE)  #유저
     created_date = models.DateTimeField(auto_now_add=True)

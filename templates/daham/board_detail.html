@@ -7,6 +7,7 @@
 
     <h4>{{ board.content }}</h4>
     <h4>{{ board.created_date }}</h4>
+    <a href="{% url 'daham:application_create' board.id %}"><button>신청</button></a>
 
     <form action="{% url 'daham:comment_create' board.id %}" method="post">
         {% csrf_token %}
