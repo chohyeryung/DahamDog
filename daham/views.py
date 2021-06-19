@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 
@@ -6,9 +7,13 @@ from daham.models import Board, Application
 
 
 def index(request):
+    page = request.GET.get('page', '1')
     board_list = Board.objects.order_by('-created_date')
 
-    context = {'board_list': board_list}
+    paginator = Paginator(board_list, 4)
+    page_obj = paginator.get_page(page)
+
+    context = {'board_list': page_obj}
 
     return render(request, 'daham/board_list.html', context)
 
