@@ -9,6 +9,7 @@ from daham.models import Board, Application
 def index(request):
     page = request.GET.get('page', '1')
     board_list = Board.objects.order_by('-created_date')
+    # model에 좋아요 수 넣어서 ~~ 좋아요 많은 순으로 정렬하기
 
     paginator = Paginator(board_list, 4)
     page_obj = paginator.get_page(page)

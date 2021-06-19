@@ -10,7 +10,10 @@
             {% for board in board_list %}
                 <tr class="card border-info mb-3">
                     <td class="card-body text-info">
-                    <a href="{% url 'daham:detail' board.id %}" class="card-title board-title">{{ board.title }}</a>
+                        <a href="{% url 'daham:detail' board.id %}" class="card-title board-title">{{ board.title }}</a>
+                    </td>
+                    <td class="card border-info mb-3">
+                        {{ board.created_date }}
                     </td>
                     {% if board.application_set.all.count %}
                         <td>{{ board.application_set.all.count }}명의 신청자</td>
@@ -36,14 +39,16 @@
 
             <!-- 페이지리스트 -->
             {% for page_number in board_list.paginator.page_range %}
-                {% if page_number == board_list.number %}
-                <li class="page-item active" aria-current="page">
-                    <a class="page-link" href="?page{{ page_number }}">{{ page_number }}</a>
-                </li>
-                {% else %}
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
-                </li>
+                {% if page_number >= board_list.number|add:-4 and page_number <= board_list.number|add:4 %}
+                    {% if page_number == board_list.number %}
+                    <li class="page-item active" aria-current="page">
+                        <a class="page-link" href="?page{{ page_number }}">{{ page_number }}</a>
+                    </li>
+                    {% else %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+                    </li>
+                    {% endif %}
                 {% endif %}
             {% endfor %}
 
