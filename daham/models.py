@@ -11,6 +11,8 @@ class Board(models.Model):
     # user = models.ForeignKey(User, on_delete=models.CASCADE)  #유저
     title = models.CharField(max_length=200, null=True)
     content = models.TextField()
+    # deadline = models.DateTimeField(input_formats=['%Y/%m/%d %H:%M:%S'])
+    end_date = models.DateField(null=True)
     created_date = models.DateTimeField(auto_now_add=True)
 
 
