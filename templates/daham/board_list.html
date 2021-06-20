@@ -11,6 +11,7 @@
                 <tr class="card border-info mb-3">
                     <td class="card-body text-info">
                         <a href="{% url 'daham:detail' board.id %}" class="card-title board-title">{{ board.title }}</a>
+                        <span>D-{{ dday }}</span>
                     </td>
                     <td class="card border-info mb-3">
                         {{ board.created_date }}

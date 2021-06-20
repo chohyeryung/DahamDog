@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
@@ -8,13 +10,15 @@ from daham.models import Board, Application
 
 def index(request):
     page = request.GET.get('page', '1')
-    board_list = Board.objects.order_by('-created_date')
-    # model에 좋아요 수 넣어서 ~~ 좋아요 많은 순으로 정렬하기
+    board_list = Board.objects.order_by('end_date')
+    today = datetime.now()
+    bdate = Board.objects.values('end_date')
+    dday = today-bdate
 
     paginator = Paginator(board_list, 4)
     page_obj = paginator.get_page(page)
 
-    context = {'board_list': page_obj}
+    context = {'board_list': page_obj, 'dday': dday}
 
     return render(request, 'daham/board_list.html', context)
 
