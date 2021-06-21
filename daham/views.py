@@ -8,7 +8,6 @@ from django.utils import timezone
 from daham.forms import BoardForm, CommentForm
 from daham.models import Board, Application
 
-
 def index(request):
     page = request.GET.get('page', '1')
     board_list = Board.objects.order_by('end_date')

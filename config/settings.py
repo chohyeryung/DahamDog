@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'daham',
+    'common.apps.CommonConfig',
 ]
 
 MIDDLEWARE = [
@@ -124,5 +125,3 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
-
-DATE_INPUT_FORMATS = ['%d-%m-%Y']
