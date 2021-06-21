@@ -1,5 +1,6 @@
-from datetime import datetime, timedelta
+from datetime import datetime
 
+now = datetime.now()
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
@@ -11,14 +12,12 @@ from daham.models import Board, Application
 def index(request):
     page = request.GET.get('page', '1')
     board_list = Board.objects.order_by('end_date')
-    today = datetime.now()
-    bdate = Board.objects.values('end_date')
-    dday = today-bdate
+    today = datetime.now().date()
 
     paginator = Paginator(board_list, 4)
     page_obj = paginator.get_page(page)
 
-    context = {'board_list': page_obj, 'dday': dday}
+    context = {'board_list': page_obj, 'today': today}
 
     return render(request, 'daham/board_list.html', context)
 
