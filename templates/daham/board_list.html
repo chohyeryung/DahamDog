@@ -20,6 +20,9 @@
                     <td class="card border-info mb-3">
                         {{ board.created_date }}
                     </td>
+                    <td class="card border-info mb-3">
+                        글쓴이 : {{ board.user.username }}
+                    </td>
                     {% if board.application_set.all.count %}
                         <td>{{ board.application_set.all.count }}명의 신청자</td>
                     {% else %}
