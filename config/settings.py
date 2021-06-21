@@ -125,3 +125,6 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
+
+LOGIN_REDIRECT_URL = '/'    # 로그인 성공시 갈 url
+LOGOUT_REDIRECT_URL = '/common/login'   # 로그아웃 성공시 갈 url

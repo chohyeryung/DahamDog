@@ -10,5 +10,4 @@ urlpatterns = [
     path('board/create', views.board_create, name='board_create'),
     path('board/<int:board_id>/comment/create/', views.comment_create, name='comment_create'),
     path('board/<int:board_id>/application/create', views.application_create, name='application_create'),
-
 ]
