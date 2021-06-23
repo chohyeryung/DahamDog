@@ -9,7 +9,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 
 from daham.forms import BoardForm, CommentForm
-from daham.models import Board, Application
+from daham.models import Board, Application, Comment
 
 
 def index(request):
@@ -100,6 +100,36 @@ def comment_create(request, board_id):
         form = CommentForm()
     context = {'board': board, 'form': form}
     return render(request, 'daham/board_detail.html', context)
+
+
+@login_required(login_url='common:login')
+def comment_update(request, comment_id):
+    comment = get_object_or_404(Comment, pk=comment_id)
+    if request.user != comment.user:
+        messages.error(request, '수정권한이 없습니다')
+        return redirect('daham:detail', board_id=comment.board.id)
+
+    if request.method == "POST":
+        form = CommentForm(request.POST, instance=comment)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.user = request.user
+            comment.save()
+            return redirect('daham:detail', board_id=comment.board.id)
+    else:
+        form = CommentForm(instance=comment)
+    context = {'comment': comment, 'form': form}
+    return render(request, 'daham/comment_form.html', context)
+
+
+@login_required(login_url='common:login')
+def comment_delete(request, comment_id):
+    comment = get_object_or_404(Comment, pk=comment_id)
+    if request.user != comment.user:
+        messages.error(request, '삭제권한이 없습니다.')
+        return redirect('daham:detail', board_id=comment.board.id)
+    comment.delete()
+    return redirect('daham:detail', board_id=comment.board.id)
 
 
 def application_create(request, board_id):

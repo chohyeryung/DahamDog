@@ -30,7 +30,13 @@
     </form>
 
     {% for comment in board.comment_set.all %}
-        <li>{{ comment.content }} {{ comment.created_date|date:'Y-m-d' }}</li>
+        <li>
+            {{ comment.content }} {{ comment.created_date|date:'Y-m-d' }}
+            {% if request.user == comment.user %}
+                <a href="{% url 'daham:comment_update' comment.id %}">수정</a>
+                <a href="#" class="delete" data-uri="{% url 'daham:comment_delete' comment.id %}">삭제</a>
+            {% endif %}
+        </li>
     {% endfor %}
 {% endblock %}
 
@@ -38,7 +44,7 @@
 <script type="text/javascript">
     $(document).ready(function(){
         $(".delete").on('click', function() {
-            if(confirm("게시글을 삭제하시겠습니까?")) {
+            if(confirm("정말 삭제하시겠습니까?")) {
                 location.href = $(this).data('uri');
             }
         });

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container my-3">
+    <form method="post" class="post-form">
+        {% csrf_token %}
+        {% include "form_errors.html" %}
+        <div class="form-group">
+             <input {% if not user.is_authenticated %}disabled{% endif %}name="content" id="content">
+        </div>
+        <button type="submit" class="btn btn-success">저장</button>
+    </form>
+</div>
+{% endblock %}
