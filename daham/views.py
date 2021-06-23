@@ -15,6 +15,7 @@ def index(request):
     return render(request, 'daham/index.html')
 
 
+@login_required(login_url='common:login')
 def board(request):
     page = request.GET.get('page', '1')
     board_list = Board.objects.order_by('end_date')
@@ -49,6 +50,27 @@ def detail(request, board_id):
     context = {'board': board}
 
     return render(request, 'daham/board_detail.html', context)
+
+
+@login_required(login_url='common:login')
+def board_update(request, board_id):
+    pass
+    # board = get_object_or_404(Board, pk=board_id)
+    #
+    # if request.method == "POST":
+    #     form = BoardForm(request.POST)
+    #     if form.is_valid():
+    #         board = form.save(commit=False)
+    #         board.save()
+
+
+@login_required(login_url='common:login')
+def board_delete(request, board_id):
+    pass
+    # board = get_object_or_404(Board, pk=board_id)
+    #
+    # board.delete()
+    # return redirect('daham:index')
 
 
 @login_required(login_url='common:login')

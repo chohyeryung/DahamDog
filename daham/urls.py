@@ -9,6 +9,8 @@ urlpatterns = [
     path('board/', views.board, name='board'),
     path('board/<int:board_id>/', views.detail, name='detail'),
     path('board/create', views.board_create, name='board_create'),
+    path('board/update/<int:board_id>/', views.board_update, name='board_update'),
+    path('board/delete/<int:board_id>/', views.board_delete, name='board_delete'),
     path('board/<int:board_id>/comment/create/', views.comment_create, name='comment_create'),
     path('board/<int:board_id>/application/create', views.application_create, name='application_create'),
 ]

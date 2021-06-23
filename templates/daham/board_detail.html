@@ -3,6 +3,11 @@
 {% block title %}상세보기{% endblock %}
 
 {% block content %}
+    {% if user.email == board.user.email %}
+        <a href="{% url 'daham:board_update' board.id %}">수정</a>
+        <a href="{% url 'daham:board_delete' board.id %}">삭제</a>
+    {% endif %}
+
     <h2>{{ board.title }}</h2>
 
     <h4>{{ board.content }}</h4>
