@@ -3,9 +3,18 @@
 {% block title %}상세보기{% endblock %}
 
 {% block content %}
-    {% if user.email == board.user.email %}
+    {% if messages %}
+    <div class="alert alert-danger my-3" role="alert">
+    {% for message in messages %}
+        <strong>{{ message.tags }}</strong>
+        <ul><li>{{ message.message }}</li></ul>
+    {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if request.user == board.user %}
         <a href="{% url 'daham:board_update' board.id %}">수정</a>
-        <a href="{% url 'daham:board_delete' board.id %}" class="delete">삭제</a>
+        <a href="#" class="delete" data-uri="{% url 'daham:board_delete' board.id %}">삭제</a>
     {% endif %}
 
     <h2>{{ board.title }}</h2>
@@ -27,9 +36,9 @@
 
 {% block script %}
 <script type="text/javascript">
-    $(document).ready(function() {
-        $(".delete").on('click', function () {
-            if(confirm("정말 삭제하시겠습니까?")) {
+    $(document).ready(function(){
+        $(".delete").on('click', function() {
+            if(confirm("게시글을 삭제하시겠습니까?")) {
                 location.href = $(this).data('uri');
             }
         });

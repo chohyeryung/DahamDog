@@ -27,11 +27,11 @@
                     <td class="card border-info mb-3">
                         글쓴이 : {{ board.user.username }}
                     </td>
-                    {% if board.application_set.all.count %}
-                        <td>{{ board.application_set.all.count }}명의 신청자</td>
-                    {% else %}
-                        <td>지원자가 없습니다</td>
-                    {% endif %}
+
+                    <td>
+                         <i class="bi bi-chat-fill"></i> {{ board.comment_set.all.count }}&nbsp;&nbsp;
+                        <i class="bi bi-people-fill"></i> {{ board.application_set.all.count }}
+                    </td>
                 </tr>
             {% endfor %}
         </table>
