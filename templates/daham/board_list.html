@@ -1,8 +1,12 @@
 {% extends 'base.html' %}
 
-{% load static %}
-
-{% block title %}글 목록{% endblock %}
+<head>
+    {% load static %}
+    {% block extrahead %}
+        <link rel="stylesheet" href="{% static 'css/board_list.css' %}">
+    {% endblock %}
+    {% block title %}글 목록{% endblock %}
+</head>
 
 {% block content %}
     {% if board_list %}

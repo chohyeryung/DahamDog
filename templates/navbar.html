@@ -1,13 +1,11 @@
+{% load static %}
 <!-- 네비게이션바 -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-    <a class="navbar-brand" href="{% url 'daham:index' %}">다함개</a>
-    <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse flex-grow-0" id="navbarNav">
-        <ul class="navbar-nav">
-            {% if user.is_authenticated %}
+<nav class="nav">
+    <a class="navbar-brand" href="{% url 'daham:index' %}"> <img src="{% static 'img/logo.png' %}" alt=""/> </a>
+{#    <div class="collapse navbar-collapse" id="navbarNav">#}
+
+        {% if user.is_authenticated %}
+            <ul class="menu navbar">
                 <li class="nav-item">
                     다함개
                 </li>
@@ -17,13 +15,17 @@
                 <li class="nav-item">
                     함께할래요   <!-- 내가 쓴 글에 봉사 신청한 사람 목록 -->
                 </li>
+            </ul>
+            <ul class="user navbar">
                 <li class="nav-item">
                     <span>{{ user.username }}님</span>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'common:logout' %}">로그아웃</a>
                 </li>
-            {% else %}
+            </ul>
+        {% else %}
+            <ul class="menu navbar">
                 <li class="nav-item">
                     <a href="{% url 'common:login' %}">다함개</a>
                 </li>
@@ -33,13 +35,15 @@
                 <li class="nav-item">
                     <a href="{% url 'common:login' %}">함께할래요</a>   <!-- 내가 쓴 글에 봉사 신청한 사람 목록 -->
                 </li>
+            </ul>
+            <ul class="user navbar">
                 <li class="nav-item">
                     <a class="nav-item" href="{% url 'common:login' %}">로그인</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-item" href="{% url 'common:signup' %}">회원가입</a>
                 </li>
-            {% endif %}
-        </ul>
-    </div>
+            </ul>
+        {% endif %}
+{#    </div>#}
 </nav>
