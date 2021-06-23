@@ -5,7 +5,7 @@
 {% block content %}
     {% if user.email == board.user.email %}
         <a href="{% url 'daham:board_update' board.id %}">수정</a>
-        <a href="{% url 'daham:board_delete' board.id %}">삭제</a>
+        <a href="{% url 'daham:board_delete' board.id %}" class="delete">삭제</a>
     {% endif %}
 
     <h2>{{ board.title }}</h2>
@@ -23,4 +23,16 @@
     {% for comment in board.comment_set.all %}
         <li>{{ comment.content }} {{ comment.created_date|date:'Y-m-d' }}</li>
     {% endfor %}
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $(".delete").on('click', function () {
+            if(confirm("정말 삭제하시겠습니까?")) {
+                location.href = $(this).data('uri');
+            }
+        });
+    });
+</script>
 {% endblock %}

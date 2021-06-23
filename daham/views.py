@@ -54,23 +54,27 @@ def detail(request, board_id):
 
 @login_required(login_url='common:login')
 def board_update(request, board_id):
-    pass
-    # board = get_object_or_404(Board, pk=board_id)
-    #
-    # if request.method == "POST":
-    #     form = BoardForm(request.POST)
-    #     if form.is_valid():
-    #         board = form.save(commit=False)
-    #         board.save()
+    board = get_object_or_404(Board, pk=board_id)
+
+    if request.method == "POST":
+        form = BoardForm(request.POST, instance=board)  # 기존 값을 폼에 채우기
+        if form.is_valid():
+            board = form.save(commit=False)
+            board.user = request.user
+            board.modify_date = timezone.now()
+            board.save()
+            return redirect('daham:detail', board_id=board.id)
+    else:
+        form = BoardForm(instance=board)  # 기존 값을 폼에 채우기
+    context = {'form': form}
+    return render(request, 'daham/board_form.html', context)
 
 
 @login_required(login_url='common:login')
 def board_delete(request, board_id):
-    pass
-    # board = get_object_or_404(Board, pk=board_id)
-    #
-    # board.delete()
-    # return redirect('daham:index')
+    board = get_object_or_404(Board, pk=board_id)
+    board.delete()
+    return redirect('daham:board')
 
 
 @login_required(login_url='common:login')
@@ -97,4 +101,3 @@ def application_create(request, board_id):
     board.save()
 
     return redirect('daham:board')
-

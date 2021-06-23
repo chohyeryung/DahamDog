@@ -16,9 +16,9 @@
                     <td class="card-body text-info">
                         <a href="{% url 'daham:detail' board.id %}" class="card-title board-title">{{ board.title }}</a>
                         {% if today == board.end_date %}
-                            마감일 : <span class="end-date" style="color:red">{{ board.end_date }}</span>
+                            봉사일 : <span class="end-date" style="color:red">{{ board.end_date }}</span>
                         {% else %}
-                            마감일 : <span class="end-date">{{ board.end_date }}</span>
+                            봉사일 : <span class="end-date">{{ board.end_date }}</span>
                         {% endif %}
                     </td>
                     <td class="card border-info mb-3">
