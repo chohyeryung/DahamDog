@@ -18,7 +18,7 @@
             </ul>
             <ul class="user navbar">
                 <li class="nav-item">
-                    <a href="{% url 'daham:mypage' user.username %}"><span>{{ user.username }}님</span></a>
+                    <a href="{% url 'daham:people' user.username %}"><span>{{ user.username }}님</span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'common:logout' %}">로그아웃</a>

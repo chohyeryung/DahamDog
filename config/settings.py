@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'daham',
     'common.apps.CommonConfig',
+    'bootstrap4',
 ]
 
 MIDDLEWARE = [

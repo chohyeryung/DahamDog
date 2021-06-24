@@ -9,8 +9,8 @@ from django.core.paginator import Paginator
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 
-from daham.forms import BoardForm, CommentForm
-from daham.models import Board, Application, Comment
+from daham.forms import BoardForm, CommentForm, CustomUserChangeForm, ProfileForm
+from daham.models import Board, Application, Comment, Profile
 
 
 def index(request):
@@ -141,6 +141,28 @@ def application_create(request, board_id):
     return redirect('daham:board')
 
 
-def mypage(request, username):
+@login_required(login_url='common:login')
+# 유저 프로필
+def people(request, username):
     person = get_object_or_404(get_user_model(), username=username)
-    return render(request, 'daham/mypage.html', {'person':person})
+    return render(request, 'daham/mypage.html', {'person': person})
+
+
+@login_required(login_url='common:login')
+def profile(request):
+    if request.method == "POST":
+        user_change_form = CustomUserChangeForm(request.POST, instance=request.user)
+        profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
+        if user_change_form.is_valid() and profile_form.is_valid():
+            user = user_change_form.save()
+            profile_form.save()
+            return redirect('people', user.username)
+        return redirect('daham:profile')
+    else:
+        user_change_form = CustomUserChangeForm(instance=request.user)
+        profile, create = Profile.objects.get_or_create(user=request.user)
+        profile_form = ProfileForm(instance=profile)
+        return render(request, 'daham/profile.html', {
+            'user_change_form': user_change_form,
+            'profile_form': profile_form
+        })
