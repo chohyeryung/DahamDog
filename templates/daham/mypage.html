@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}마이페이지{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <!-- 유저 프로필 -->
+                <img {% if person.profile.image %} src="{{ person.profile.image.url }}"
+                                                   {% else %}src="https://i.stack.imgur.com/34AD2.jpg"{% endif %}
+                                                   width="150rem" style="border-radius: 50%;" alt="">
+                {{ person.profile.description }}
+                {{ request.user.username }}
+                {{ request.user.email }}
+            </div>
+            <div class="col">
+                2 of 2
+            </div>
+        </div>
+    </div>
+{% endblock %}

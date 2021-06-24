@@ -127,3 +127,7 @@ STATICFILES_DIRS = [
 
 LOGIN_REDIRECT_URL = '/'    # 로그인 성공시 갈 url
 LOGOUT_REDIRECT_URL = '/common/login'   # 로그아웃 성공시 갈 url
+
+# 유저 이미지
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, MEDIA_URL)

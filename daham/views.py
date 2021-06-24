@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from django.contrib import messages
+from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 
 now = datetime.now()
@@ -138,3 +139,8 @@ def application_create(request, board_id):
     board.save()
 
     return redirect('daham:board')
+
+
+def mypage(request, username):
+    person = get_object_or_404(get_user_model(), username=username)
+    return render(request, 'daham/mypage.html', {'person':person})
