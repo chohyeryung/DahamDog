@@ -21,19 +21,25 @@
 
     <h4>{{ board.content }}</h4>
     <h4>{{ board.created_date }}</h4>
-    <a {% if board.user.username == user.username %}disabled{% endif %}href="{% url 'daham:application_create' board.id %}"><button>신청</button></a>
+
+    {% if application_list.count == 0 %}
+         <a {% if board.user.username == user.username %}disabled{% endif %}href="{% url 'daham:application_create' board.id %}"><button>신청</button></a>
+    {% else %}
+        {% for application in application_list.all %}
+            <a {% if board.user.username == user.username %}disabled{% endif %}href="{% url 'daham:application_delete' application.id %}"><button>신청 취소</button></a>
+        {% endfor %}
+    {% endif %}
 
     <form action="{% url 'daham:comment_create' board.id %}" method="post">
         {% csrf_token %}
-        <input {% if not user.is_authenticated %}disabled{% endif %}name="content" id="content">
+        <input {% if not user.is_authenticated %}disabled{% endif %} name="content" id="content">
         <input type="submit" value="답글">
     </form>
 
     {% for comment in board.comment_set.all %}
         <li>
-            {{ comment.content }} {{ comment.created_date|date:'Y-m-d' }}
+            {{ comment.content }} {{ comment.created_date|date:'Y-m-d' }} {{ comment.user.username }}
             {% if request.user == comment.user %}
-                <a href="{% url 'daham:comment_update' comment.id %}">수정</a>
                 <a href="#" class="delete" data-uri="{% url 'daham:comment_delete' comment.id %}">삭제</a>
             {% endif %}
         </li>

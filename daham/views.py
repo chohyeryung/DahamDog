@@ -49,7 +49,8 @@ def board_create(request):
 
 def detail(request, board_id):
     board = Board.objects.get(id=board_id)
-    context = {'board': board}
+    application = Application.objects.filter(board=board, user=request.user)
+    context = {'board': board, 'application_list': application}
 
     return render(request, 'daham/board_detail.html', context)
 
@@ -104,26 +105,6 @@ def comment_create(request, board_id):
 
 
 @login_required(login_url='common:login')
-def comment_update(request, comment_id):
-    comment = get_object_or_404(Comment, pk=comment_id)
-    if request.user != comment.user:
-        messages.error(request, '수정권한이 없습니다')
-        return redirect('daham:detail', board_id=comment.board.id)
-
-    if request.method == "POST":
-        form = CommentForm(request.POST, instance=comment)
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.user = request.user
-            comment.save()
-            return redirect('daham:detail', board_id=comment.board.id)
-    else:
-        form = CommentForm(instance=comment)
-    context = {'comment': comment, 'form': form}
-    return render(request, 'daham/comment_form.html', context)
-
-
-@login_required(login_url='common:login')
 def comment_delete(request, comment_id):
     comment = get_object_or_404(Comment, pk=comment_id)
     if request.user != comment.user:
@@ -138,7 +119,16 @@ def application_create(request, board_id):
     Application.objects.create(board=board, user=request.user, created_date=timezone.now())
     board.save()
 
-    return redirect('daham:board')
+    return redirect('daham:detail', board_id=board_id)
+
+
+def application_delete(request, application_id):
+    application = get_object_or_404(Application, pk=application_id)
+    if request.user != application.user:
+        messages.error(request, '삭제권한이 없습니다.')
+        return redirect('daham:detail', board_id=application.board.id)
+    application.delete()
+    return redirect('daham:detail', board_id=application.board.id)
 
 
 @login_required(login_url='common:login')
