@@ -1,31 +1,43 @@
 {% extends 'base.html' %}
 {% block title %}함께할래요{% endblock %}
 
+<head>
+    {% load static %}
+    {% block extrahead %}
+        <link rel="stylesheet" href="{% static 'css/board_list.css' %}">
+    {% endblock %}
+</head>
+
 {% block content %}
+    <h2>내가 작성한 글</h2>
     {% if board_list %}
         <table>
             {% for board in board_list %}
-                <tr class="card border-info mb-3">
-                    <td class="card-body text-info">
-                        <a href="{% url 'daham:detail' board.id %}" class="card-title board-title">{{ board.title }}</a>
-                        {% if today == board.end_date %}
-                            봉사일 : <span class="end-date" style="color:red">{{ board.end_date }}</span>
-                        {% else %}
-                            봉사일 : <span class="end-date">{{ board.end_date }}</span>
-                        {% endif %}
-                    </td>
-                    <td class="card border-info mb-3">
-                        {{ board.created_date }}
-                    </td>
-                    <td class="card border-info mb-3">
-                        글쓴이 : {{ board.user.username }}
-                    </td>
+                {% if board.user == request.user %}
+                    <tr class="card border-info mb-3">
+                        <td class="card-body text-info">
+                            <a href="{% url 'daham:want_board_detail' board.id %}" class="card-title board-title">{{ board.title }}</a>
+                            {% if today == board.end_date %}
+                                봉사일 : <span class="end-date" style="color:red">{{ board.end_date }}</span>
+                            {% else %}
+                                봉사일 : <span class="end-date">{{ board.end_date }}</span>
+                            {% endif %}
+                        </td>
+                        <td class="card border-info mb-3">
+                            {{ board.created_date }}
+                        </td>
+                        <td class="card border-info mb-3">
+                            글쓴이 : {{ board.user.username }}
+                        </td>
 
-                    <td>
-                         <i class="bi bi-chat-fill"></i> {{ board.comment_set.all.count }}&nbsp;&nbsp;
-                        <i class="bi bi-people-fill"></i> {{ board.application_set.all.count }}
-                    </td>
-                </tr>
+                        <td>
+                             <i class="bi bi-chat-fill"></i> {{ board.comment_set.all.count }}&nbsp;&nbsp;
+                            <i class="bi bi-people-fill"></i> {{ board.application_set.all.count }}
+                        </td>
+                    </tr>
+                {% else %}
+                    작성한 글이 없습니다.
+                {% endif %}
             {% endfor %}
         </table>
 

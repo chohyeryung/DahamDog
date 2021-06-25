@@ -163,5 +163,19 @@ def profile(request):
 
 #함께할래요
 def want_board(request):
+    page = request.GET.get('page', '1')
     board_list = Board.objects.order_by('end_date')
-    return render(request, 'daham/want_board_list.html', {'board_list': board_list})
+    today = datetime.now().date()
+
+    paginator = Paginator(board_list, 4)
+    page_obj = paginator.get_page(page)
+
+    context = {'board_list': page_obj, 'today': today}
+    return render(request, 'daham/want_board_list.html', context)
+
+
+def want_board_detail(request, board_id):
+    board = Board.objects.get(id=board_id)
+    application_list = Application.objects.filter(board=board)
+
+    return render(request, 'daham/want_board_detail.html', {'application_list': application_list})
