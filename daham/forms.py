@@ -37,18 +37,18 @@ class CommentForm(forms.ModelForm):
         }
 
 
-class CustomUserChangeForm(UserChangeForm):
-    password = None
-
-    class Meta:
-        model = get_user_model()
-        fields = ['email', 'username',]
-
-
-class ProfileForm(models.Model):
-    description = forms.CharField(label="한줄소개", required=False, widget=forms.Textarea())
-    image = forms.ImageField(label="프로필 이미지", required=False)
-
-    class Meta:
-        model = Profile
-        fields = ['description', 'image',]
+# class CustomUserChangeForm(UserChangeForm):
+#     password = None
+#
+#     class Meta:
+#         model = get_user_model()
+#         fields = ['email', 'username',]
+#
+#
+# class ProfileForm(models.Model):
+#     description = forms.CharField(label="한줄소개", required=False, widget=forms.Textarea())
+#     image = forms.ImageField(label="프로필 이미지", required=False)
+#
+#     class Meta:
+#         model = Profile
+#         fields = ['description', 'image',]

@@ -17,7 +17,7 @@ urlpatterns = [
     path('board/<int:board_id>/application/create', views.application_create, name='application_create'),
     path('comment/update/<int:comment_id>/', views.comment_update, name='comment_update'),
     path('comment/delete/<int:comment_id>/', views.comment_delete, name='comment_delete'),
-    path('<str:username>/', views.people, name='people'),
+    path('mypage/', views.mypage, name='mypage'),
     path('profile/', views.profile, name='profile'),
 ]
 

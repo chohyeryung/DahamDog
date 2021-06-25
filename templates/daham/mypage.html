@@ -15,7 +15,14 @@
                 <a href="{% url 'daham:profile' %}">수정</a>
             </div>
             <div class="col">
-                2 of 2
+                <h3>내가 신청한 봉사</h3>
+                {% if board_list %}
+                    {% for application in board_list.all %}
+{#                        {{ board_list.all.1.board.title }}#}
+                        {{ application.board.title }}
+                    {% endfor %}
+                {% endif %}
+
             </div>
         </div>
     </div>
