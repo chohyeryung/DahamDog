@@ -7,7 +7,7 @@ class Board(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)  # 유저
     title = models.CharField(max_length=200, null=True)
     content = models.TextField()
-    end_date = models.DateField(null=True)
+    end_date = models.DateField(null=True)  #봉사 날짜
     created_date = models.DateTimeField(auto_now_add=True)
 
 

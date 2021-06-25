@@ -18,11 +18,12 @@
                 <h3>내가 신청한 봉사</h3>
                 {% if board_list %}
                     {% for application in board_list.all %}
-{#                        {{ board_list.all.1.board.title }}#}
                         {{ application.board.title }}
+                        봉사 날짜 : {{ application.board.end_date }}
                     {% endfor %}
+                {% else %}
+                    신청한 봉사가 없습니다. 서둘러 봉사를 신청해보세요 🏃
                 {% endif %}
-
             </div>
         </div>
     </div>
