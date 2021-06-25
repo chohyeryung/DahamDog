@@ -159,3 +159,9 @@ def profile(request):
             'user_change_form': user_change_form,
             'profile_form': profile_form
         })
+
+
+#함께할래요
+def want_board(request):
+    board_list = Board.objects.order_by('end_date')
+    return render(request, 'daham/want_board_list.html', {'board_list': board_list})
