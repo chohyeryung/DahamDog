@@ -134,11 +134,16 @@ def application_delete(request, application_id):
 @login_required(login_url='common:login')
 # 유저 프로필
 def mypage(request):
+    page = request.GET.get('page', '1')
     person = get_object_or_404(get_user_model(), username=request.user.username)
 
     application_board = Application.objects.all().filter(user=request.user)
+    paginator = Paginator(application_board, 2)
+    page_obj = paginator.get_page(page)
 
-    return render(request, 'daham/mypage.html', {'person': person, 'board_list': application_board})
+    context = {'person': person, 'board_list': page_obj}
+
+    return render(request, 'daham/mypage.html', context)
 
 
 @login_required(login_url='common:login')

@@ -14,17 +14,71 @@
                 {{ request.user.email }}
                 <a href="{% url 'daham:profile' %}">수정</a>
             </div>
-            <div class="col">
-                <h3>내가 신청한 봉사</h3>
-                {% if board_list %}
-                    {% for application in board_list.all %}
-                        {{ application.board.title }}
-                        봉사 날짜 : {{ application.board.end_date }}
-                    {% endfor %}
-                {% else %}
-                    신청한 봉사가 없습니다. 서둘러 봉사를 신청해보세요 🏃
-                {% endif %}
+
+            <div class="container col">
+                <div class="col">
+                    <h3>내가 신청한 봉사</h3>
+                    {% if board_list %}
+
+                        <table>
+                            {% for application in board_list %}
+                                <tr class="card border-info mb-3">
+                                    <td class="card-body text-info">
+                                        <a href="{% url 'daham:detail' application.board.id %}"
+                                           class="card-title board-title">{{ application.board.title }}</a>
+                                    </td>
+                                    <td class="card border-info mb-3">
+                                        봉사 날짜 : {{ application.board.end_date }}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    {% else %}
+                        신청한 봉사가 없습니다. 서둘러 봉사를 신청해보세요 🏃
+                    {% endif %}
+
+                    <!-- 페이징처리 시작 -->
+                    <ul class="pagination justify-content-center">
+                        <!-- 이전페이지 -->
+                        {% if board_list.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ border_list.previous_page_number }}">이전</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
+                            </li>
+                        {% endif %}
+
+                        <!-- 페이지리스트 -->
+                        {% for page_number in board_list.paginator.page_range %}
+                            {% if page_number >= board_list.number|add:-4 and page_number <= board_list.number|add:4 %}
+                                {% if page_number == board_list.number %}
+                                    <li class="page-item active" aria-current="page">
+                                        <a class="page-link" href="?page{{ page_number }}">{{ page_number }}</a>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+                                    </li>
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+
+                        <!-- 다음페이지 -->
+                        {% if board_list.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ board_list.next_page_number }}">다음</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
             </div>
+
         </div>
     </div>
 {% endblock %}
