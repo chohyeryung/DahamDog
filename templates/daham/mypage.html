@@ -15,11 +15,12 @@
                 <a href="{% url 'daham:profile' %}">수정</a>
             </div>
 
+
             <div class="container col">
                 <div class="col">
                     <h3>내가 신청한 봉사</h3>
+                    {{ board_list.paginator.count }} 개
                     {% if board_list %}
-
                         <table>
                             {% for application in board_list %}
                                 <tr class="card border-info mb-3">
