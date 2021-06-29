@@ -1,0 +1,89 @@
+html, body {
+    width: 100%;
+    height: auto;
+    position: relative;
+}
+
+.container {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -30%);
+    width: 500px;
+    margin-top: 80px;
+    z-index: 1;
+    padding:60px 20px 40px 20px;
+}
+
+.login-icon{
+    width:100px;
+    height:100px;
+    position: absolute;
+    top:-40px;
+    left:41%;
+}
+
+h3{
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: bold;
+}
+
+.column{
+    z-index: 1;
+}
+
+.background_con {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #cecece;
+    opacity: 0.6;
+    border-radius: 30px;
+    z-index: -1;
+}
+
+.post-form {
+    text-align: center;
+    width: 300px;
+    margin: 0 auto;
+}
+
+.form-control {
+    width: 300px;
+    height: 50px;
+}
+
+.auth-btn{
+    background-color: #3e9455;
+    margin-top: 12px;
+    border:none;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 18px;
+    width:100%;
+}
+
+h6 {
+    text-align: right;
+    margin-right: 80px;
+    margin-top: 60px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+h6 a{
+    color: #3e9455;
+}
+
+h6 a:hover{
+    color: #3e9455;
+    font-weight: bold;
+}
+
+.column {
+    margin-top: 20px;
+}
