@@ -1,46 +1,50 @@
 {% extends 'base.html' %}
 {% block title %}함께할래요{% endblock %}
 
-<head>
-    {% load static %}
-    {% block extrahead %}
-        <link rel="stylesheet" href="{% static 'css/board_list.css' %}">
-    {% endblock %}
-</head>
+{% load static %}
+{% block extrahead %}
+    <link rel="stylesheet" href="{% static 'css/board_list.css' %}">
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"
+    />
+{% endblock %}
 
 {% block content %}
-    <h2>내가 작성한 글</h2>
+    <h2 style="text-align: center; font-weight: bold">내가 작성한 글</h2>
     {% if board_list %}
-        <table>
+        <div class="board-con">
             {% for board in board_list %}
                 {% if board.user == request.user %}
-                    <tr class="card border-info mb-3">
-                        <td class="card-body text-info">
-                            <a href="{% url 'daham:want_board_detail' board.id %}"
-                               class="card-title board-title">{{ board.title }}</a>
-                            {% if today == board.end_date %}
-                                봉사일 : <span class="end-date" style="color:red">{{ board.end_date }}</span>
+                    <a href="{% url 'daham:want_board_detail' board.id %}">
+                        <div class="board">
+                            {% if board.image %}
+                                <img src="{{ board.image.url }}" class="board-img" alt="">
                             {% else %}
-                                봉사일 : <span class="end-date">{{ board.end_date }}</span>
+                                <img src="{% static 'img/defaultImg.png' %}" class="board-img" alt="">
                             {% endif %}
-                        </td>
-                        <td class="card border-info mb-3">
-                            {{ board.created_date }}
-                        </td>
-                        <td class="card border-info mb-3">
-                            글쓴이 : {{ board.user.username }}
-                        </td>
-
-                        <td>
-                            <i class="bi bi-chat-fill"></i> {{ board.comment_set.all.count }}&nbsp;&nbsp;
-                            <i class="bi bi-people-fill"></i> {{ board.application_set.all.count }}
-                        </td>
-                    </tr>
+                            <div class="board-info">
+                                <span class="board-title">{{ board.title }}</span>
+                                {% if today == board.end_date %}
+                                    <span class="end-date" style="color:red">{{ board.end_date }}</span>
+                                {% else %}
+                                    <span class="end-date">{{ board.end_date }}</span>
+                                {% endif %}
+                            </div>
+                            <div class="board-info second">
+                                <span>{{ board.user.username }}</span>
+                                <div class="board-more-info">
+                                    <i class="fas fa-comment"></i>&nbsp;{{ board.comment_set.all.count }}&nbsp;&nbsp;
+                                    <i class="fas fa-address-book"></i>&nbsp;{{ board.application_set.all.count }}
+                                </div>
+                            </div>
+                        </div>
+                    </a>
                 {% endif %}
             {% endfor %}
-        </table>
+        </div>
     {% else %}
-        작성한 글이 없습니다.
+        <h3 style="text-align: center; color:gray; font-weight: bold;">작성한 글이 없습니다. 서둘러 글을 작성해보세요!</h3>
 
         <!-- 페이징처리 시작 -->
         <ul class="pagination justify-content-center">

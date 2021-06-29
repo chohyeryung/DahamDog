@@ -1,22 +1,75 @@
 {% extends 'base.html' %}
+{% load static %}
+
 {% block title %}함께한 사람들{% endblock %}
+{% block extrahead %}
+    <link rel="stylesheet" href="{% static 'css/want_board.css' %}">
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"
+    />
+{% endblock %}
 
 {% block content %}
-    <table class="table">
-        <thead class="thead-dark">
+    <h2 style="text-align: center; font-weight: bold; margin-bottom: 50px;">봉사 신청자</h2>
+    <div class="list-con">
+        <table class="table">
+            <thead class="thead">
             <tr>
-                <th scope="col">아이디</th>
-                <th scope="col">이메일</th>
+                <th>아이디</th>
+                <th>이메일</th>
             </tr>
-        </thead>
-        <tbody>
-            {% for application in application_list.all %}
+            </thead>
+            <tbody>
+
+            {% for application in application_list %}
                 <tr>
                     <td>{{ application.user.username }}</td>
                     <td>{{ application.user.email }}</td>
                 </tr>
             {% endfor %}
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+
+        <!-- 페이징처리 시작 -->
+        <ul class="pagination justify-content-center">
+            <!-- 이전페이지 -->
+            {% if application_list.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ application_list.previous_page_number }}">이전</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
+                </li>
+            {% endif %}
+
+            <!-- 페이지리스트 -->
+            {% for page_number in application_list.paginator.page_range %}
+                {% if page_number >= application_list.number|add:-4 and page_number <= application_list.number|add:4 %}
+                    {% if page_number == application_list.number %}
+                        <li class="page-item active page-cur" aria-current="page">
+                            <a class="page-link" href="?page{{ page_number }}">{{ page_number }}</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item page-cur">
+                            <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+                        </li>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+
+            <!-- 다음페이지 -->
+            {% if application_list.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ application_list.next_page_number }}">다음</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
 
 {% endblock %}

@@ -182,7 +182,11 @@ def want_board(request):
 
 
 def want_board_detail(request, board_id):
+    page = request.GET.get('page', '1')
     board = Board.objects.get(id=board_id)
-    application_list = Application.objects.filter(board=board)
 
-    return render(request, 'daham/want_board_detail.html', {'application_list': application_list})
+    application_list = Application.objects.filter(board=board)
+    paginator = Paginator(application_list, 5)
+    page_obj = paginator.get_page(page)
+
+    return render(request, 'daham/want_board_detail.html', {'application_list': page_obj})
