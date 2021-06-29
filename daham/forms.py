@@ -9,7 +9,7 @@ from daham.models import Board, Comment, Profile
 class BoardForm(forms.ModelForm):
     class Meta:
         model = Board
-        fields = ['title', 'content', 'end_date']
+        fields = ['title', 'content', 'image', 'end_date']
 
         # labels = {
         #     'title': '제목',

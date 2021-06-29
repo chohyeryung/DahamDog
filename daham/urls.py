@@ -19,9 +19,9 @@ urlpatterns = [
     path('comment/delete/<int:comment_id>/', views.comment_delete, name='comment_delete'),
     path('mypage/', views.mypage, name='mypage'),
     path('profile/', views.profile, name='profile'),
-    #함께할래요
+    # 함께할래요
     path('want_board/', views.want_board, name='want_board'),
     path('want_board/<int:board_id>/', views.want_board_detail, name='want_board_detail'),
 ]
 
-urlpatterns+=static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

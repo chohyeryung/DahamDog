@@ -34,11 +34,12 @@ def board(request):
 @login_required(login_url='common:login')
 def board_create(request):
     if request.method == 'POST':
-        form = BoardForm(request.POST)
+        form = BoardForm(request.POST, request.FILES)
         if form.is_valid():
             board = form.save(commit=False)  # commit=Fasle는 아직 임시저장
             board.user = request.user
             board.created_date = timezone.now()  # created_date까지 설정한 후
+            board.image = form.cleaned_data['image']
             board.save()  # 진짜 저장
             return redirect('daham:board')
     else:

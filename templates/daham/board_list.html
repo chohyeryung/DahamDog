@@ -1,12 +1,11 @@
 {% extends 'base.html' %}
+{% load static %}
 
-<head>
-    {% load static %}
-    {% block extrahead %}
-        <link rel="stylesheet" href="{% static 'css/board_list.css' %}">
-    {% endblock %}
-    {% block title %}글 목록{% endblock %}
-</head>
+{% block title %}글 목록{% endblock %}
+{% block extrahead %}
+    <link rel="stylesheet" href="{% static 'css/board_list.css' %}">
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+{% endblock %}
 
 {% block content %}
     {% if board_list %}
@@ -27,10 +26,15 @@
                     <td class="card border-info mb-3">
                         글쓴이 : {{ board.user.username }}
                     </td>
+                    <td class="card border-info mb-3">
+                        {% if board.image %}
+                            <img src="{{ board.image.url }}" alt="">
+                        {% endif %}
+                    </td>
 
                     <td>
-                         <i class="bi bi-chat-fill"></i> {{ board.comment_set.all.count }}&nbsp;&nbsp;
-                        <i class="bi bi-people-fill"></i> {{ board.application_set.all.count }}
+                        댓글 {{ board.comment_set.all.count }}&nbsp;&nbsp;
+                        신청자수 {{ board.application_set.all.count }}
                     </td>
                 </tr>
             {% endfor %}
@@ -40,39 +44,39 @@
         <ul class="pagination justify-content-center">
             <!-- 이전페이지 -->
             {% if board_list.has_previous %}
-            <li class="page-item">
-                <a class="page-link" href="?page={{ border_list.previous_page_number }}">이전</a>
-            </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ border_list.previous_page_number }}">이전</a>
+                </li>
             {% else %}
-            <li class="page-item disabled">
-                <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
-            </li>
+                <li class="page-item disabled">
+                    <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
+                </li>
             {% endif %}
 
             <!-- 페이지리스트 -->
             {% for page_number in board_list.paginator.page_range %}
                 {% if page_number >= board_list.number|add:-4 and page_number <= board_list.number|add:4 %}
                     {% if page_number == board_list.number %}
-                    <li class="page-item active" aria-current="page">
-                        <a class="page-link" href="?page{{ page_number }}">{{ page_number }}</a>
-                    </li>
+                        <li class="page-item active" aria-current="page">
+                            <a class="page-link" href="?page{{ page_number }}">{{ page_number }}</a>
+                        </li>
                     {% else %}
-                    <li class="page-item">
-                        <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
-                    </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+                        </li>
                     {% endif %}
                 {% endif %}
             {% endfor %}
 
             <!-- 다음페이지 -->
             {% if board_list.has_next %}
-            <li class="page-item">
-                <a class="page-link" href="?page={{ board_list.next_page_number }}">다음</a>
-            </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ board_list.next_page_number }}">다음</a>
+                </li>
             {% else %}
-            <li class="page-item disabled">
-                <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>
-            </li>
+                <li class="page-item disabled">
+                    <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>
+                </li>
             {% endif %}
         </ul>
     {% endif %}
