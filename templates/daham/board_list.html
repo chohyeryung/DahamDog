@@ -11,6 +11,7 @@
 {% endblock %}
 
 {% block content %}
+    <a href="{% url 'daham:board_create' %}" class="btn-lg btn-create"><i class="fas fa-plus"></i>&nbsp;&nbsp;글 등록</a>
     {% if board_list %}
         <div class="board-con">
             {% for board in board_list %}
@@ -38,32 +39,6 @@
                         </div>
                     </div>
                 </a>
-
-
-                {#                    <td class="card-body text-info">#}
-                {#                        <a href="{% url 'daham:detail' board.id %}" class="card-title board-title">{{ board.title }}</a>#}
-                {#                        {% if today == board.end_date %}#}
-                {#                            봉사일 : <span class="end-date" style="color:red">{{ board.end_date }}</span>#}
-                {#                        {% else %}#}
-                {#                            봉사일 : <span class="end-date">{{ board.end_date }}</span>#}
-                {#                        {% endif %}#}
-                {#                    </td>#}
-                {#                    <td class="card border-info mb-3">#}
-                {#                        {{ board.created_date }}#}
-                {#                    </td>#}
-                {#                    <td class="card border-info mb-3">#}
-                {#                        글쓴이 : {{ board.user.username }}#}
-                {#                    </td>#}
-                {#                    <td class="card border-info mb-3">#}
-                {#                        {% if board.image %}#}
-                {#                            <img src="{{ board.image.url }}" alt="">#}
-                {#                        {% endif %}#}
-                {#                    </td>#}
-                {##}
-                {#                    <td>#}
-                {#                        댓글 {{ board.comment_set.all.count }}&nbsp;&nbsp;#}
-                {#                        신청자수 {{ board.application_set.all.count }}#}
-                {#                    </td>#}
             {% endfor %}
         </div>
 
@@ -86,11 +61,11 @@
             {% for page_number in board_list.paginator.page_range %}
                 {% if page_number >= board_list.number|add:-4 and page_number <= board_list.number|add:4 %}
                     {% if page_number == board_list.number %}
-                        <li class="page-item active" aria-current="page">
+                        <li class="page-item active page-cur" aria-current="page">
                             <a class="page-link" href="?page{{ page_number }}">{{ page_number }}</a>
                         </li>
                     {% else %}
-                        <li class="page-item">
+                        <li class="page-item page-cur">
                             <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
                         </li>
                     {% endif %}
@@ -110,5 +85,4 @@
         </ul>
     {% endif %}
 
-    <a href="{% url 'daham:board_create' %}" class="btn btn-primary btn-lg">글 등록</a>
 {% endblock %}
