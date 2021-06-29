@@ -138,12 +138,13 @@ def application_delete(request, application_id):
 def mypage(request):
     page = request.GET.get('page', '1')
     person = get_object_or_404(get_user_model(), username=request.user.username)
+    today = datetime.now().date()
 
     application_board = Application.objects.all().filter(user=request.user)
     paginator = Paginator(application_board, 2)
     page_obj = paginator.get_page(page)
 
-    context = {'person': person, 'board_list': page_obj}
+    context = {'person': person, 'board_list': page_obj, 'today': today}
 
     return render(request, 'daham/mypage.html', context)
 

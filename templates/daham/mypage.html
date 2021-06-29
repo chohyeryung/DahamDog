@@ -1,85 +1,124 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}마이페이지{% endblock %}
 
+{% block extrahead %}
+    <link rel="stylesheet" href="{% static 'css/board_list.css' %}">
+    <link rel="stylesheet" href="{% static 'css/mypage.css' %}">
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"
+    />
+{% endblock %}
+
 {% block content %}
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <!-- 유저 프로필 -->
-                <img {% if person.profile.image %} src="{{ person.profile.image.url }}"
-                                                   {% else %}src="https://i.stack.imgur.com/34AD2.jpg"{% endif %}
-                                                   width="150rem" style="border-radius: 50%;" alt="">
-                {{ person.profile.description }}
-                {{ request.user.username }}
-                {{ request.user.email }}
-                <a href="{% url 'daham:profile' %}">수정</a>
+    <div class="mypage-con">
+        <div class="user-profile">
+            <!-- 유저 프로필 -->
+            <img {% if person.profile.image %} src="{{ person.profile.image.url }}"
+                                               {% else %}src="https://i.stack.imgur.com/34AD2.jpg"{% endif %}
+                                               width="150rem" style="border-radius: 50%;" alt="">
+            <h3>{{ request.user.username }}</h3>
+            <h4>{{ person.profile.description }}</h4>
+            <h4>{{ request.user.email }}</h4>
+            <a href="{% url 'daham:profile' %}">수정</a>
+        </div>
+
+        <div class="more-info">
+            <div class="info">
+                <h3>내가 신청한 봉사</h3>
+                <h4>{{ board_list.paginator.count }} 개</h4>
             </div>
-
-
-            <div class="container col">
-                <div class="col">
-                    <h3>내가 신청한 봉사</h3>
-                    {{ board_list.paginator.count }} 개
-                    {% if board_list %}
-                        <table>
-                            {% for application in board_list %}
-                                <tr class="card border-info mb-3">
-                                    <td class="card-body text-info">
-                                        <a href="{% url 'daham:detail' application.board.id %}"
-                                           class="card-title board-title">{{ application.board.title }}</a>
-                                    </td>
-                                    <td class="card border-info mb-3">
-                                        봉사 날짜 : {{ application.board.end_date }}
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        </table>
-                    {% else %}
-                        신청한 봉사가 없습니다. 서둘러 봉사를 신청해보세요 🏃
-                    {% endif %}
-
-                    <!-- 페이징처리 시작 -->
-                    <ul class="pagination justify-content-center">
-                        <!-- 이전페이지 -->
-                        {% if board_list.has_previous %}
-                            <li class="page-item">
-                                <a class="page-link" href="?page={{ border_list.previous_page_number }}">이전</a>
-                            </li>
-                        {% else %}
-                            <li class="page-item disabled">
-                                <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
-                            </li>
+            {% if board_list %}
+                <div class="board-con">
+                    {% for application in board_list %}
+                        {% if application.user == request.user %}
+                            <a href="{% url 'daham:detail' application.board.id %}">
+                                <div class="board">
+                                    {% if board.image %}
+                                        <img src="{{ application.board.image.url }}" class="board-img" alt="">
+                                    {% else %}
+                                        <img src="{% static 'img/defaultImg.png' %}" class="board-img" alt="">
+                                    {% endif %}
+                                    <div class="board-info">
+                                        <span class="board-title">{{ application.board.title }}</span>
+                                        {% if today == application.board.end_date %}
+                                            <span class="end-date"
+                                                  style="color:red">{{ application.board.end_date }}</span>
+                                        {% else %}
+                                            <span class="end-date">{{ application.board.end_date }}</span>
+                                        {% endif %}
+                                    </div>
+                                    <div class="board-info second">
+                                        <span>{{ application.board.user.username }}</span>
+                                        <div class="board-more-info">
+                                            <i class="fas fa-comment"></i>&nbsp;{{ application.board.comment_set.all.count }}&nbsp;&nbsp;
+                                            <i class="fas fa-address-book"></i>&nbsp;{{ application.board.application_set.all.count }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
                         {% endif %}
-
-                        <!-- 페이지리스트 -->
-                        {% for page_number in board_list.paginator.page_range %}
-                            {% if page_number >= board_list.number|add:-4 and page_number <= board_list.number|add:4 %}
-                                {% if page_number == board_list.number %}
-                                    <li class="page-item active" aria-current="page">
-                                        <a class="page-link" href="?page{{ page_number }}">{{ page_number }}</a>
-                                    </li>
-                                {% else %}
-                                    <li class="page-item">
-                                        <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
-                                    </li>
-                                {% endif %}
-                            {% endif %}
-                        {% endfor %}
-
-                        <!-- 다음페이지 -->
-                        {% if board_list.has_next %}
-                            <li class="page-item">
-                                <a class="page-link" href="?page={{ board_list.next_page_number }}">다음</a>
-                            </li>
-                        {% else %}
-                            <li class="page-item disabled">
-                                <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>
-                            </li>
-                        {% endif %}
-                    </ul>
+                    {% endfor %}
                 </div>
-            </div>
 
+
+                {#                        <table>#}
+                {#                            {% for application in board_list %}#}
+                {#                                <tr class="card border-info mb-3">#}
+                {#                                    <td class="card-body text-info">#}
+                {#                                        <a href="{% url 'daham:detail' application.board.id %}"#}
+                {#                                           class="card-title board-title">{{ application.board.title }}</a>#}
+                {#                                    </td>#}
+                {#                                    <td class="card border-info mb-3">#}
+                {#                                        봉사 날짜 : {{ application.board.end_date }}#}
+                {#                                    </td>#}
+                {#                                </tr>#}
+                {#                            {% endfor %}#}
+                {#                        </table>#}
+            {% else %}
+                신청한 봉사가 없습니다. 서둘러 봉사를 신청해보세요 🏃
+            {% endif %}
+
+            <!-- 페이징처리 시작 -->
+            <ul class="pagination justify-content-center">
+                <!-- 이전페이지 -->
+                {% if board_list.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ border_list.previous_page_number }}">이전</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
+                    </li>
+                {% endif %}
+
+                <!-- 페이지리스트 -->
+                {% for page_number in board_list.paginator.page_range %}
+                    {% if page_number >= board_list.number|add:-4 and page_number <= board_list.number|add:4 %}
+                        {% if page_number == board_list.number %}
+                            <li class="page-item active" aria-current="page">
+                                <a class="page-link" href="?page{{ page_number }}">{{ page_number }}</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+                            </li>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+
+                <!-- 다음페이지 -->
+                {% if board_list.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ board_list.next_page_number }}">다음</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>
+                    </li>
+                {% endif %}
+            </ul>
         </div>
     </div>
 {% endblock %}
