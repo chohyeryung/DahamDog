@@ -15,7 +15,15 @@ html, body {
     z-index: 1;
 }
 
-h4 {
+.login-icon{
+    width:100px;
+    height:100px;
+    position: absolute;
+    top:-40px;
+    left:41%;
+}
+
+h3{
     text-align: center;
     margin-bottom: 30px;
     font-weight: bold;
@@ -48,10 +56,32 @@ h4 {
     height: 50px;
 }
 
+.auth-btn{
+    background-color: #3e9455;
+    margin-top: 12px;
+    border:none;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 18px;
+    width:100%;
+}
+
 h6 {
     text-align: right;
     margin-right: 80px;
     margin-top: 60px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+h6 a{
+    color: #3e9455;
+}
+
+h6 a:hover{
+    color: #3e9455;
+    font-weight: bold;
 }
 
 .column {
