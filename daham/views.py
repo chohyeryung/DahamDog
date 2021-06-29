@@ -170,6 +170,7 @@ def profile(request):
 
 
 #함께할래요
+@login_required(login_url='common:login')
 def want_board(request):
     page = request.GET.get('page', '1')
     board_list = Board.objects.order_by('end_date')
@@ -179,6 +180,7 @@ def want_board(request):
     page_obj = paginator.get_page(page)
 
     context = {'board_list': page_obj, 'today': today}
+
     return render(request, 'daham/want_board_list.html', context)
 
 

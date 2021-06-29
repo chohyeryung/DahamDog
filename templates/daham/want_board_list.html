@@ -12,8 +12,9 @@
 
 {% block content %}
     <h2 style="text-align: center; font-weight: bold">내가 작성한 글</h2>
+
     {% if board_list %}
-        <div class="board-con">
+        <div class="board-con" style="padding: 80px 90px 220px 130px;">
             {% for board in board_list %}
                 {% if board.user == request.user %}
                     <a href="{% url 'daham:want_board_detail' board.id %}">
@@ -40,11 +41,12 @@
                             </div>
                         </div>
                     </a>
+                {% else %}
+                    <h3>아직 작성한 글이 없습니다. 서둘러 글을 작성해보세요!</h3>
                 {% endif %}
             {% endfor %}
         </div>
-    {% else %}
-        <h3 style="text-align: center; color:gray; font-weight: bold;">작성한 글이 없습니다. 서둘러 글을 작성해보세요!</h3>
+
 
         <!-- 페이징처리 시작 -->
         <ul class="pagination justify-content-center">
@@ -86,4 +88,6 @@
             {% endif %}
         </ul>
     {% endif %}
+
+
 {% endblock %}
