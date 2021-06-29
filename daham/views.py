@@ -23,7 +23,7 @@ def board(request):
     board_list = Board.objects.order_by('end_date')
     today = datetime.now().date()
 
-    paginator = Paginator(board_list, 4)
+    paginator = Paginator(board_list, 8)
     page_obj = paginator.get_page(page)
 
     context = {'board_list': page_obj, 'today': today}
@@ -64,11 +64,12 @@ def board_update(request, board_id):
         return redirect('daham:detail', board_id=board.id)
 
     if request.method == "POST":
-        form = BoardForm(request.POST, instance=board)  # 기존 값을 폼에 채우기
+        form = BoardForm(request.POST, request.FILES, instance=board)  # 기존 값을 폼에 채우기
         if form.is_valid():
             board = form.save(commit=False)
             board.user = request.user
             board.modify_date = timezone.now()
+            board.image = form.cleaned_data['image']
             board.save()
             return redirect('daham:detail', board_id=board.id)
     else:
