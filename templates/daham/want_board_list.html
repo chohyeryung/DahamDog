@@ -32,7 +32,7 @@
                             {% endif %}
                         </div>
                         <div class="board-info second">
-                            <span>{{ board.user.username }}</span>
+                            <span>{{ board.profile.nickname }}</span>
                             <div class="board-more-info">
                                 <i class="fas fa-comment"></i>&nbsp;{{ board.comment_set.all.count }}&nbsp;&nbsp;
                                 <i class="fas fa-address-book"></i>&nbsp;{{ board.application_set.all.count }}

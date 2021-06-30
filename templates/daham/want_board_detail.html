@@ -12,7 +12,8 @@
 
 {% block content %}
     <h2 style="text-align: center; font-weight: bold; margin-bottom: 50px;">봉사 신청자</h2>
-    <div class="list-con">
+    {% if application_list %}
+        <div class="list-con">
         <table class="table">
             <thead class="thead">
             <tr>
@@ -24,8 +25,8 @@
 
             {% for application in application_list %}
                 <tr>
-                    <td>{{ application.user.username }}</td>
-                    <td>{{ application.user.email }}</td>
+                    <td>{{ application.profile.user }}</td>
+                    <td>{{ application.profile.user.email }}</td>
                 </tr>
             {% endfor %}
             </tbody>
@@ -70,6 +71,9 @@
                 </li>
             {% endif %}
         </ul>
-    </div>
+    {% else %}
+        <h3 style="font-weight: bold; margin-top: 180px; text-align: center">아직 봉사자가 없습니다. 조금만 더 기다려주세요 ! 😋</h3>
+    {% endif %}
+</div>
 
 {% endblock %}
