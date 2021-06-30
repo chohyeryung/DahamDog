@@ -21,13 +21,12 @@ def index(request):
 def board(request):
     page = request.GET.get('page', '1')
     board_list = Board.objects.order_by('end_date')
-    person = get_object_or_404(get_user_model(), username=request.user.username)
     today = datetime.now().date()
 
     paginator = Paginator(board_list, 8)
     page_obj = paginator.get_page(page)
 
-    context = {'person': person, 'board_list': page_obj, 'today': today}
+    context = {'board_list': page_obj, 'today': today}
 
     return render(request, 'daham/board_list.html', context)
 
@@ -38,7 +37,8 @@ def board_create(request):
         form = BoardForm(request.POST, request.FILES)
         if form.is_valid():
             board = form.save(commit=False)  # commit=Fasle는 아직 임시저장
-            board.user = request.user
+            user = request.user
+            board.profile = Profile.objects.get(user=user)
             board.created_date = timezone.now()  # created_date까지 설정한 후
             board.image = form.cleaned_data['image']
             board.save()  # 진짜 저장
@@ -51,9 +51,10 @@ def board_create(request):
 
 def detail(request, board_id):
     board = Board.objects.get(id=board_id)
-    application = Application.objects.filter(board=board, user=request.user)
-    person = get_object_or_404(get_user_model(), username=request.user.username)
-    context = {'person': person, 'board': board, 'application_list': application}
+    user = request.user
+    profile = Profile.objects.get(user=user)
+    application = Application.objects.filter(board=board, profile=profile)
+    context = {'board': board, 'application_list': application}
 
     return render(request, 'daham/board_detail.html', context)
 
@@ -61,7 +62,7 @@ def detail(request, board_id):
 @login_required(login_url='common:login')
 def board_update(request, board_id):
     board = get_object_or_404(Board, pk=board_id)
-    if request.user != board.user:
+    if request.user != board.profile.user:
         messages.error(request, '수정권한이 없습니다.')
         return redirect('daham:detail', board_id=board.id)
 
@@ -69,7 +70,9 @@ def board_update(request, board_id):
         form = BoardForm(request.POST, request.FILES, instance=board)  # 기존 값을 폼에 채우기
         if form.is_valid():
             board = form.save(commit=False)
-            board.user = request.user
+            user = request.user
+            profile = Profile.objects.get(user=user)
+            board.profile = profile
             board.modify_date = timezone.now()
             board.image = form.cleaned_data['image']
             board.save()
@@ -83,7 +86,7 @@ def board_update(request, board_id):
 @login_required(login_url='common:login')
 def board_delete(request, board_id):
     board = get_object_or_404(Board, pk=board_id)
-    if request.user != board.user:
+    if request.user != board.profile.user:
         messages.error(request, '삭제권한이 없습니다.')
         return redirect('daham:detail', board_id=board.id)
     board.delete()
@@ -98,7 +101,8 @@ def comment_create(request, board_id):
         form = CommentForm(request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
-            comment.user = request.user
+            user = request.user
+            comment.profile = Profile.objects.get(user=user)
             comment.board = board
             comment.save()
             return redirect('daham:detail', board_id=board.id)
@@ -111,7 +115,7 @@ def comment_create(request, board_id):
 @login_required(login_url='common:login')
 def comment_delete(request, comment_id):
     comment = get_object_or_404(Comment, pk=comment_id)
-    if request.user != comment.user:
+    if request.user != comment.profile.user:
         messages.error(request, '삭제권한이 없습니다.')
         return redirect('daham:detail', board_id=comment.board.id)
     comment.delete()
@@ -120,7 +124,9 @@ def comment_delete(request, comment_id):
 
 def application_create(request, board_id):
     board = get_object_or_404(Board, pk=board_id)
-    Application.objects.create(board=board, user=request.user, created_date=timezone.now())
+    user = request.user
+    profile = Profile.objects.get(user=user)
+    Application.objects.create(board=board, profile=profile, created_date=timezone.now())
     board.save()
 
     return redirect('daham:detail', board_id=board_id)
@@ -128,7 +134,7 @@ def application_create(request, board_id):
 
 def application_delete(request, application_id):
     application = get_object_or_404(Application, pk=application_id)
-    if request.user != application.user:
+    if request.user != application.profile.user:
         messages.error(request, '삭제권한이 없습니다.')
         return redirect('daham:detail', board_id=application.board.id)
     application.delete()
@@ -139,14 +145,15 @@ def application_delete(request, application_id):
 # 유저 프로필
 def mypage(request):
     page = request.GET.get('page', '1')
-    person = get_object_or_404(get_user_model(), username=request.user.username)
+    user = request.user
+    profile = Profile.objects.get(user=user)
     today = datetime.now().date()
 
-    application_board = Application.objects.all().filter(user=request.user)
+    application_board = Application.objects.all().filter(profile=profile)
     paginator = Paginator(application_board, 2)
     page_obj = paginator.get_page(page)
 
-    context = {'person': person, 'board_list': page_obj, 'today': today}
+    context = {'person': profile, 'board_list': page_obj, 'today': today}
 
     return render(request, 'daham/mypage.html', context)
 
@@ -173,14 +180,14 @@ def profile(request):
 @login_required(login_url='common:login')
 def want_board(request):
     page = request.GET.get('page', '1')
-    board_list = Board.objects.all().filter(user=request.user)
-    person = get_object_or_404(get_user_model(), username=request.user.username)
+    profile = Profile.objects.get(user=request.user)
+    board_list = Board.objects.filter(profile=profile).order_by('end_date')
     today = datetime.now().date()
 
     paginator = Paginator(board_list, 4)
     page_obj = paginator.get_page(page)
 
-    context = {'person': person, 'board_list': page_obj, 'today': today}
+    context = {'board_list': page_obj, 'today': today}
 
     return render(request, 'daham/want_board_list.html', context)
 
@@ -188,10 +195,9 @@ def want_board(request):
 def want_board_detail(request, board_id):
     page = request.GET.get('page', '1')
     board = Board.objects.get(id=board_id)
-    person = get_object_or_404(get_user_model(), username=request.user.username)
 
     application_list = Application.objects.filter(board=board)
     paginator = Paginator(application_list, 5)
     page_obj = paginator.get_page(page)
 
-    return render(request, 'daham/want_board_detail.html', {'person': person, 'application_list': page_obj})
+    return render(request, 'daham/want_board_detail.html', {'application_list': page_obj})
