@@ -17,5 +17,5 @@
     2. configurations start
     
 <br><br>   
-## Then, Be a good volunteer! Let's Get Started 🐶!!!
+## Then, Be a nice volunteer! Let's Get Started 🐶!!!
 <img src="https://user-images.githubusercontent.com/54982667/123886336-30a89180-d98a-11eb-836f-54c36b145e39.gif" alt=""/>
