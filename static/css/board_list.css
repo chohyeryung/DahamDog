@@ -63,3 +63,19 @@ span{
     background-color: #3e9455;
     border-color: #3e9455;
 }
+
+/*want_board_list*/
+.concon{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.btn-wcreate{
+    margin-top: 30px;
+    padding: 15px 30px;
+    font-weight: bold;
+    background-color: #5AB071;
+    color: whitesmoke;
+    border-radius: 50px;
+}
