@@ -17,6 +17,10 @@ def index(request):
     return render(request, 'daham/index.html')
 
 
+def intro(request):
+    return render(request, 'daham/intro.html')
+
+
 @login_required(login_url='common:login')
 def board(request):
     page = request.GET.get('page', '1')

@@ -1,0 +1,60 @@
+div {
+    height: 100vh;
+}
+
+div:nth-of-type(2n) {
+    background-color: #3e9455;
+}
+
+.scroll-down {
+    z-index: 11;
+    position: fixed;
+    width: 42px;
+    height: 64px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    bottom: 82px;
+    border: 2px solid black;
+    border-radius: 50px;
+}
+
+.scroll-down::before, .scroll-down::after {
+    content: '';
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    border: 2px solid black;
+    height: 10px;
+    width: 10px;
+    transform: translate(-50%, -50%) rotate(45deg);
+    border-top: transparent;
+    border-left: transparent;
+    animation: MoveArrow 1s ease-in-out infinite;
+}
+
+.scroll-down::after {
+    top: 30%;
+    animation-delay: 0.3s;
+}
+
+@keyframes MoveArrow {
+    0% {
+        opacity: 0;
+    }
+    30% {
+        opacity: 1;
+    }
+    60% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        top: 90%;
+    }
+}
+
+h1 {
+    font-weight: bold;
+    text-align: center;
+    margin-top: 180px;
+}

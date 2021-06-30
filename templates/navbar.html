@@ -6,7 +6,7 @@
     {% if user.is_authenticated %}
         <ul class="menu navbar">
             <li class="nav-item">
-                다함개
+                <a href="{% url 'daham:intro' %}">다함개</a>
             </li>
             <li class="nav-item">
                 <a href="{% url 'daham:board' %}">함께하기</a>   <!-- 봉사 신청 -->

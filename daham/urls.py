@@ -8,6 +8,7 @@ app_name = 'daham'
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('intro/', views.intro, name='intro'),
     path('board/', views.board, name='board'),
     path('board/<int:board_id>/', views.detail, name='detail'),
     path('board/create/', views.board_create, name='board_create'),

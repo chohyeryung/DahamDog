@@ -14,25 +14,29 @@
     <h2 style="text-align: center; font-weight: bold; margin-bottom: 50px;">봉사 신청자</h2>
     {% if application_list %}
         <div class="list-con">
-        <table class="table">
-            <thead class="thead">
-            <tr>
-                <th>아이디</th>
-                <th>닉네임</th>
-                <th>이메일</th>
-            </tr>
-            </thead>
-            <tbody>
-
-            {% for application in application_list %}
+        <div class="tabcon">
+            <table class="table">
+                <thead class="thead">
                 <tr>
-                    <td>{{ application.profile.user }}</td>
-                    <td>{{ application.profile.nickname }}</td>
-                    <td>{{ application.profile.user.email }}</td>
+                    <th>아이디</th>
+                    <th>닉네임</th>
+                    <th>이메일</th>
                 </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+
+                {% for application in application_list %}
+                    <tr>
+                        <td>{{ application.profile.user }}</td>
+                        <td>{{ application.profile.nickname }}</td>
+                        <td>{{ application.profile.user.email }}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
 
         <!-- 페이징처리 시작 -->
         <ul class="pagination justify-content-center">
