@@ -21,12 +21,13 @@ def index(request):
 def board(request):
     page = request.GET.get('page', '1')
     board_list = Board.objects.order_by('end_date')
+    person = get_object_or_404(get_user_model(), username=request.user.username)
     today = datetime.now().date()
 
     paginator = Paginator(board_list, 8)
     page_obj = paginator.get_page(page)
 
-    context = {'board_list': page_obj, 'today': today}
+    context = {'person': person, 'board_list': page_obj, 'today': today}
 
     return render(request, 'daham/board_list.html', context)
 
@@ -51,7 +52,8 @@ def board_create(request):
 def detail(request, board_id):
     board = Board.objects.get(id=board_id)
     application = Application.objects.filter(board=board, user=request.user)
-    context = {'board': board, 'application_list': application}
+    person = get_object_or_404(get_user_model(), username=request.user.username)
+    context = {'person': person, 'board': board, 'application_list': application}
 
     return render(request, 'daham/board_detail.html', context)
 
@@ -163,20 +165,22 @@ def profile(request):
         user_change_form = CustomUserChangeForm(instance=request.user)
         profile, create = Profile.objects.get_or_create(user=request.user)
         profile_form = ProfileForm(instance=profile)
-        return render(request, 'daham/profile_form.html', {'user_change_form': user_change_form, 'profile_form': profile_form})
+        return render(request, 'daham/profile_form.html',
+                      {'user_change_form': user_change_form, 'profile_form': profile_form})
 
 
-#함께할래요
+# 함께할래요
 @login_required(login_url='common:login')
 def want_board(request):
     page = request.GET.get('page', '1')
     board_list = Board.objects.all().filter(user=request.user)
+    person = get_object_or_404(get_user_model(), username=request.user.username)
     today = datetime.now().date()
 
     paginator = Paginator(board_list, 4)
     page_obj = paginator.get_page(page)
 
-    context = {'board_list': page_obj, 'today': today}
+    context = {'person': person, 'board_list': page_obj, 'today': today}
 
     return render(request, 'daham/want_board_list.html', context)
 
@@ -184,9 +188,10 @@ def want_board(request):
 def want_board_detail(request, board_id):
     page = request.GET.get('page', '1')
     board = Board.objects.get(id=board_id)
+    person = get_object_or_404(get_user_model(), username=request.user.username)
 
     application_list = Application.objects.filter(board=board)
     paginator = Paginator(application_list, 5)
     page_obj = paginator.get_page(page)
 
-    return render(request, 'daham/want_board_detail.html', {'application_list': page_obj})
+    return render(request, 'daham/want_board_detail.html', {'person': person, 'application_list': page_obj})
