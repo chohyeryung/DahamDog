@@ -25,11 +25,11 @@
     <div class="detail-con">
         <div class="header">
             <div class="user-info">
-{#                <img {% if person.profile.image %} src="{{ person.profile.image.url }}"#}
-{#                                                   {% else %}src="https://i.stack.imgur.com/34AD2.jpg"{% endif %}#}
-{#                                                   class="user-img" alt="">#}
+                <img {% if board.profile.image %} src="{{ board.profile.image.url }}"
+                                                   {% else %}src="https://i.stack.imgur.com/34AD2.jpg"{% endif %}
+                                                   class="user-img" alt="">
                 <div class="user-more-info">
-                    <h1>{{ board.user.username }}</h1>
+                    <h1>{{ board.profile.nickname }}</h1>
                     <h6>{{ board.created_date }}</h6>
                 </div>
             </div>
@@ -48,23 +48,25 @@
             <div class="import-info">
                 <h1>{{ board.title }}</h1>
                 <div class="btn-group">
-                    {% if application_list.count == 0 %}
-                        <a {% if board.user.username == user.username %}class="disabled" href="#" {% endif %}
-                           href="{% url 'daham:application_create' board.id %}">
-                            <button>신청하기</button>
-                        </a>
-                    {% else %}
-                        {% for application in application_list.all %}
-                            <a {% if board.user.username == user.username %}class="disabled" href="#" {% endif %}
-                               href="{% url 'daham:application_delete' application.id %}">
-                                <button>신청취소</button>
+                    {% if board.profile.user != request.user %}
+                        {% if application_list.count == 0 %}
+                            <a href="{% url 'daham:application_create' board.id %}">
+                                <button>신청하기</button>
                             </a>
-                        {% endfor %}
+                        {% else %}
+                            {% for application in application_list.all %}
+                                <a href="{% url 'daham:application_delete' application.id %}">
+                                    <button>신청취소</button>
+                                </a>
+                            {% endfor %}
+                        {% endif %}
+                    {% else %}
                     {% endif %}
-                    {% if request.user == board.user %}
+
+                    {% if request.user == board.profile.user %}
                         <a href="{% url 'daham:board_update' board.id %}">
                             <button><i class="fas fa-pencil-alt"></i></button>
-                        </a>
+                        </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <a href="#" class="delete" data-uri="{% url 'daham:board_delete' board.id %}">
                             <button style="color:red;"><i class="far fa-trash-alt"></i></button>
                         </a>
@@ -87,12 +89,17 @@
             {% for comment in board.comment_set.all %}
                 <div class="comment-info">
                     <div class="info one">
-                        <h5>{{ comment.user.username }}</h5>
-                        <h6>{{ comment.created_date|date:'Y-m-d' }}</h6>
+                        <img {% if person.profile.image %} src="{{ person.profile.image.url }}"
+                                                           {% else %}src="https://i.stack.imgur.com/34AD2.jpg"{% endif %}
+                                                           class="user-img" alt="">
+                        <div class="one-one">
+                            <h5>{{ comment.profile.nickname }}</h5>
+                            <h6>{{ comment.created_date|date:'Y-m-d' }}</h6>
+                        </div>
                     </div>
                     <div class="info second">
-                        <h4>{{ comment.content }}</h4>
-                        {% if request.user == comment.user %}
+                        <h5>{{ comment.content }}</h5>
+                        {% if request.user == comment.profile.user %}
                             <a href="#" class="delete" data-uri="{% url 'daham:comment_delete' comment.id %}">
                                 <button class="btn-com"><i class="far fa-trash-alt"></i></button>
                             </a>
@@ -104,7 +111,7 @@
             <form action="{% url 'daham:comment_create' board.id %}" method="post">
                 {% csrf_token %}
                 <input {% if not user.is_authenticated %}disabled{% endif %} name="content" class="in-com"
-                       placeholder="댓글을 입력해주세요" id="content">
+                       placeholder="댓글을 입력해주세요" autocomplete="off" id="content">
                 <button type="submit" class="submit"><img src="{% static 'img/send.png' %}" alt=""/></button>
             </form>
         </div>
