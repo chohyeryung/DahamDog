@@ -25,8 +25,13 @@
     <div class="detail-con">
         <div class="header">
             <div class="user-info">
-                <h4>{{ board.user.username }}</h4>
-                <h6>{{ board.created_date }}</h6>
+{#                <img {% if person.profile.image %} src="{{ person.profile.image.url }}"#}
+{#                                                   {% else %}src="https://i.stack.imgur.com/34AD2.jpg"{% endif %}#}
+{#                                                   class="user-img" alt="">#}
+                <div class="user-more-info">
+                    <h1>{{ board.user.username }}</h1>
+                    <h6>{{ board.created_date }}</h6>
+                </div>
             </div>
             <div class="board-info">
                 <div class="comments">

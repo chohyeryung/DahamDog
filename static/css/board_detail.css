@@ -13,7 +13,20 @@
 
 .user-info {
     display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.user-more-info{
+    display: flex;
     flex-direction: column;
+}
+
+.user-img{
+    width:80px;
+    height:80px;
+    border-radius: 50%;
+    margin-right: 30px;
 }
 
 h4, h5 {
