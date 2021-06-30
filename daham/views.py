@@ -173,7 +173,7 @@ def profile(request):
 @login_required(login_url='common:login')
 def want_board(request):
     page = request.GET.get('page', '1')
-    board_list = Board.objects.order_by('end_date')
+    board_list = Board.objects.all().filter(user=request.user)
     today = datetime.now().date()
 
     paginator = Paginator(board_list, 4)

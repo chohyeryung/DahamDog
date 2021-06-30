@@ -14,39 +14,34 @@
     <h2 style="text-align: center; font-weight: bold">내가 작성한 글</h2>
 
     {% if board_list %}
-        <div class="board-con" style="padding: 80px 90px 220px 130px;">
+        <div class="board-con" style="padding: 80px 90px 100px 130px;">
             {% for board in board_list %}
-                {% if board.user == request.user %}
-                    <a href="{% url 'daham:want_board_detail' board.id %}">
-                        <div class="board">
-                            {% if board.image %}
-                                <img src="{{ board.image.url }}" class="board-img" alt="">
+                <a href="{% url 'daham:want_board_detail' board.id %}">
+                    <div class="board">
+                        {% if board.image %}
+                            <img src="{{ board.image.url }}" class="board-img" alt="">
+                        {% else %}
+                            <img src="{% static 'img/defaultImg.png' %}" class="board-img" alt="">
+                        {% endif %}
+                        <div class="board-info">
+                            <span class="board-title">{{ board.title }}</span>
+                            {% if today == board.end_date %}
+                                <span class="end-date" style="color:red">{{ board.end_date }}</span>
                             {% else %}
-                                <img src="{% static 'img/defaultImg.png' %}" class="board-img" alt="">
+                                <span class="end-date">{{ board.end_date }}</span>
                             {% endif %}
-                            <div class="board-info">
-                                <span class="board-title">{{ board.title }}</span>
-                                {% if today == board.end_date %}
-                                    <span class="end-date" style="color:red">{{ board.end_date }}</span>
-                                {% else %}
-                                    <span class="end-date">{{ board.end_date }}</span>
-                                {% endif %}
-                            </div>
-                            <div class="board-info second">
-                                <span>{{ board.user.username }}</span>
-                                <div class="board-more-info">
-                                    <i class="fas fa-comment"></i>&nbsp;{{ board.comment_set.all.count }}&nbsp;&nbsp;
-                                    <i class="fas fa-address-book"></i>&nbsp;{{ board.application_set.all.count }}
-                                </div>
+                        </div>
+                        <div class="board-info second">
+                            <span>{{ board.user.username }}</span>
+                            <div class="board-more-info">
+                                <i class="fas fa-comment"></i>&nbsp;{{ board.comment_set.all.count }}&nbsp;&nbsp;
+                                <i class="fas fa-address-book"></i>&nbsp;{{ board.application_set.all.count }}
                             </div>
                         </div>
-                    </a>
-                {% else %}
-                    <h3>아직 작성한 글이 없습니다. 서둘러 글을 작성해보세요!</h3>
-                {% endif %}
+                    </div>
+                </a>
             {% endfor %}
         </div>
-
 
         <!-- 페이징처리 시작 -->
         <ul class="pagination justify-content-center">
@@ -87,6 +82,8 @@
                 </li>
             {% endif %}
         </ul>
+    {% else %}
+        <h3>아직 작성한 글이 없습니다. 서둘러 글을 작성해보세요 ! 😎</h3>
     {% endif %}
 
 
