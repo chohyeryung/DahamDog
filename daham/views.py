@@ -189,7 +189,7 @@ def want_board_detail(request, board_id):
     board = Board.objects.get(id=board_id)
 
     application_list = Application.objects.filter(board=board)
-    pagir = Paginator(application_list, 5)
-    pagenato_obj = paginator.get_page(page)
+    paginator = Paginator(application_list, 5)
+    page_obj = paginator.get_page(page)
 
     return render(request, 'daham/want_board_detail.html', {'application_list': page_obj})
