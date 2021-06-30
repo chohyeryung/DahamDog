@@ -3,13 +3,38 @@
 
 {% block title %}다함개{% endblock %}
 {% block extrahead %}
-     <link rel="stylesheet" href="{% static 'css/intro.css' %}">
+    <link rel="stylesheet" href="{% static 'css/intro.css' %}">
 {% endblock %}
 
 {% block content %}
-    <div><h1>스크롤하며 다함개에 대해 알아보세요 🎨</h1></div>
-    <div></div>
-    <div></div>
-    <div></div>
+    <article><h1 class="blinking">스크롤하며 다함개에 대해 알아보세요 🎨</h1></article>
+    <article class="scon">
+        <div class="left-con">
+            <img src="{% static 'img/g1.gif' %}" alt=""/>
+            <h2>봉사를 더 즐겁게! 더 쉽게!</h2>
+            <h4>봉사를 가려고 하는데 혼자 가기엔 두려우신가요?</h4>
+        </div>
+        <div class="right-con">
+            <img src="{% static 'img/g2.gif' %}" alt=""/>
+            <h3>어떻게 해야할지 몰라 도움이 필요하신가요?</h3>
+        </div>
+
+    </article>
+    <article><h1 class="blinking">그럴 땐, 다함개를 이용해보세요 ! 🛒</h1></article>
+    <article class="scon">
+        <div class="sleft-con">
+            <div class="img-con">
+                <img src="{% static 'img/c1.png' %}" alt=""/>
+                <img src="{% static 'img/c2.png' %}" alt=""/>
+            </div>
+            <h2>간편하고 빠른 봉사 신청!</h2>
+            <h4>여러 봉사를 신청하고 봉사 모집 글을 작성해보세요.</h4>
+        </div>
+        <div class="right-con">
+
+
+        </div>
+
+    </article>
     <div class="scroll-down"></div>
 {% endblock %}

@@ -1,8 +1,8 @@
-div {
+article {
     height: 100vh;
 }
 
-div:nth-of-type(2n) {
+article:nth-of-type(2n){
     background-color: #3e9455;
 }
 
@@ -53,8 +53,111 @@ div:nth-of-type(2n) {
     }
 }
 
-h1 {
+.blinking {
     font-weight: bold;
     text-align: center;
-    margin-top: 180px;
+    margin-top: 20%;
+    -webkit-animation: blink 1.5s ease-in-out infinite alternate;
+    -moz-animation: blink 1.5s ease-in-out infinite alternate;
+    animation: blink 1.5s ease-in-out infinite alternate;
+}
+
+@-webkit-keyframes blink {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@-moz-keyframes blink {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes blink {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+div * {
+    font-weight: bold;
+}
+
+div img {
+    border-radius: 10px;
+}
+
+.scon {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 50px 100px 50px 100px;
+    position: relative;
+}
+
+.right-con {
+    position: absolute;
+    bottom: 50px;
+    right: 50px;
+}
+
+.right-con * {
+    margin: 20px;
+}
+
+.left-con {
+    position: absolute;
+    top: 100px;
+    left: 100px;
+}
+
+.left-con * {
+    margin: 20px;
+}
+
+.sleft-con{
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+}
+
+.sleft-con h2{
+    position: absolute;
+    bottom:180px;
+    text-align: center;
+}
+
+.sleft-con h4{
+    position: absolute;
+    bottom:130px;
+    text-align: center;
+}
+
+.img-con{
+    position: relative;
+}
+
+.img-con img{
+    width:600px;
+    height:350px;
+    position: absolute;
+}
+
+.img-con img:nth-of-type(n){
+    top:0;
+}
+
+.img-con img:nth-of-type(2n){
+    top:200px;
+    left:300px;
 }
