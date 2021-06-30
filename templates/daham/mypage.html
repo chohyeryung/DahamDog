@@ -17,12 +17,18 @@
             <!-- 유저 프로필 -->
             <img {% if person.profile.image %} src="{{ person.profile.image.url }}"
                                                {% else %}src="https://i.stack.imgur.com/34AD2.jpg"{% endif %}
-                                               width="150rem" style="border-radius: 50%;" alt="">
-            <h3>{{ request.user.username }}</h3>
-            <h4>{{ person.profile.nickname }}</h4>
-            <h4>{{ person.profile.description }}</h4>
-            <h4>{{ request.user.email }}</h4>
-            <a href="{% url 'daham:profile' %}">수정</a>
+                                               class="user-img" alt="">
+            <a href="{% url 'daham:profile' %}">
+                <button><i class="fas fa-pencil-alt"></i></button>
+            </a>
+
+            <div class="info-text">
+                <h1>{{ request.user.username }}</h1>
+                <h4>{{ request.user.email }}</h4>
+                <h4>{% if person.profile.nickname %}{{ person.profile.nickname }}{% else %}닉네임이 없습니다.{% endif %}</h4>
+                <h4>{% if person.profile.description %}{{ person.profile.description }}{% else %}한줄소개가
+                    없습니다.{% endif %}</h4>
+            </div>
         </div>
 
         <div class="more-info">
