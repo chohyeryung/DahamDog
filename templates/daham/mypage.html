@@ -15,18 +15,18 @@
     <div class="mypage-con">
         <div class="user-profile">
             <!-- 유저 프로필 -->
-            <img {% if person.profile.image %} src="{{ person.profile.image.url }}"
-                                               {% else %}src="https://i.stack.imgur.com/34AD2.jpg"{% endif %}
-                                               class="user-img" alt="">
+            <img {% if person.image %} src="{{ person.image.url }}"
+                                       {% else %}src="https://i.stack.imgur.com/34AD2.jpg"{% endif %}
+                                       class="user-img" alt="">
             <a href="{% url 'daham:profile' %}">
                 <button><i class="fas fa-pencil-alt"></i></button>
             </a>
 
             <div class="info-text">
-                <h1>{{ request.user.username }}</h1>
-                <h4>{{ request.user.email }}</h4>
-                <h4>{% if person.profile.nickname %}{{ person.profile.nickname }}{% else %}닉네임이 없습니다.{% endif %}</h4>
-                <h4>{% if person.profile.description %}{{ person.profile.description }}{% else %}한줄소개가
+                <h1>{{ person.user }}</h1>
+                <h4>{{ person.user.email }}</h4>
+                <h4>{% if person.nickname %}{{ person.nickname }}{% else %}닉네임이 없습니다.{% endif %}</h4>
+                <h4>{% if person.description %}{{ person.description }}{% else %}한줄소개가
                     없습니다.{% endif %}</h4>
             </div>
         </div>
@@ -39,7 +39,7 @@
             {% if board_list %}
                 <div class="board-con">
                     {% for application in board_list %}
-                        {% if application.user == request.user %}
+                        {% if application.profile.user == request.user %}
                             <a href="{% url 'daham:detail' application.board.id %}">
                                 <div class="board">
                                     {% if board.image %}
@@ -57,7 +57,7 @@
                                         {% endif %}
                                     </div>
                                     <div class="board-info second">
-                                        <span>{{ application.board.user.username }}</span>
+                                        <span>{{ application.board.profile.nickname }}</span>
                                         <div class="board-more-info">
                                             <i class="fas fa-comment"></i>&nbsp;{{ application.board.comment_set.all.count }}&nbsp;&nbsp;
                                             <i class="fas fa-address-book"></i>&nbsp;{{ application.board.application_set.all.count }}
@@ -69,63 +69,51 @@
                     {% endfor %}
                 </div>
 
-
-                {#                        <table>#}
-                {#                            {% for application in board_list %}#}
-                {#                                <tr class="card border-info mb-3">#}
-                {#                                    <td class="card-body text-info">#}
-                {#                                        <a href="{% url 'daham:detail' application.board.id %}"#}
-                {#                                           class="card-title board-title">{{ application.board.title }}</a>#}
-                {#                                    </td>#}
-                {#                                    <td class="card border-info mb-3">#}
-                {#                                        봉사 날짜 : {{ application.board.end_date }}#}
-                {#                                    </td>#}
-                {#                                </tr>#}
-                {#                            {% endfor %}#}
-                {#                        </table>#}
-            {% else %}
-                신청한 봉사가 없습니다. 서둘러 봉사를 신청해보세요 🏃
-            {% endif %}
-
-            <!-- 페이징처리 시작 -->
-            <ul class="pagination justify-content-center">
-                <!-- 이전페이지 -->
-                {% if board_list.has_previous %}
-                    <li class="page-item">
-                        <a class="page-link" href="?page={{ border_list.previous_page_number }}">이전</a>
-                    </li>
-                {% else %}
-                    <li class="page-item disabled">
-                        <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
-                    </li>
-                {% endif %}
-
-                <!-- 페이지리스트 -->
-                {% for page_number in board_list.paginator.page_range %}
-                    {% if page_number >= board_list.number|add:-4 and page_number <= board_list.number|add:4 %}
-                        {% if page_number == board_list.number %}
-                            <li class="page-item active" aria-current="page">
-                                <a class="page-link" href="?page{{ page_number }}">{{ page_number }}</a>
-                            </li>
-                        {% else %}
-                            <li class="page-item">
-                                <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
-                            </li>
-                        {% endif %}
+                <!-- 페이징처리 시작 -->
+                <ul class="pagination justify-content-center">
+                    <!-- 이전페이지 -->
+                    {% if board_list.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ border_list.previous_page_number }}">이전</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
+                        </li>
                     {% endif %}
-                {% endfor %}
 
-                <!-- 다음페이지 -->
-                {% if board_list.has_next %}
-                    <li class="page-item">
-                        <a class="page-link" href="?page={{ board_list.next_page_number }}">다음</a>
-                    </li>
-                {% else %}
-                    <li class="page-item disabled">
-                        <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>
-                    </li>
-                {% endif %}
-            </ul>
+                    <!-- 페이지리스트 -->
+                    {% for page_number in board_list.paginator.page_range %}
+                        {% if page_number >= board_list.number|add:-4 and page_number <= board_list.number|add:4 %}
+                            {% if page_number == board_list.number %}
+                                <li class="page-item active" aria-current="page">
+                                    <a class="page-link" href="?page{{ page_number }}">{{ page_number }}</a>
+                                </li>
+                            {% else %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+                                </li>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+
+                    <!-- 다음페이지 -->
+                    {% if board_list.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ board_list.next_page_number }}">다음</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            {% else %}
+                <div class="concon">
+                    <h3 style="font-weight: bold; margin-top: 30px;">아직 신청한 봉사가 없습니다. 서둘러 봉사에 참여해보세요 ! ✨</h3>
+                    <a href="{% url 'daham:board' %}" class="btn-lg btn-wcreate"><i class="fas fa-plus"></i>&nbsp;&nbsp;봉사 참여하기</a>
+                </div>
+            {% endif %}
         </div>
     </div>
 {% endblock %}
