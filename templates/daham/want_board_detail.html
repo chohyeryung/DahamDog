@@ -18,6 +18,7 @@
             <thead class="thead">
             <tr>
                 <th>아이디</th>
+                <th>닉네임</th>
                 <th>이메일</th>
             </tr>
             </thead>
@@ -26,6 +27,7 @@
             {% for application in application_list %}
                 <tr>
                     <td>{{ application.profile.user }}</td>
+                    <td>{{ application.profile.nickname }}</td>
                     <td>{{ application.profile.user.email }}</td>
                 </tr>
             {% endfor %}
