@@ -24,6 +24,10 @@
                                value="{{ form.username.value|default_if_none:'' }}">
                     </div>
                     <div class="form-group">
+                        <input type="text" placeholder="닉네임" class="form-control" name="nickname" id="nickname"
+                               value="{{ form.nickname.value|default_if_none:'' }}">
+                    </div>
+                    <div class="form-group">
                         <input type="text" placeholder="이메일" class="form-control" name="email" id="email"
                                value="{{ form.email.value|default_if_none:'' }}">
                     </div>
