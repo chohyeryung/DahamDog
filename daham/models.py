@@ -29,5 +29,6 @@ class Application(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     # 1:1로 연결
+    nickname = models.CharField(max_length=40, blank=True)
     description = models.TextField(blank=True)
     image = models.ImageField(blank=True)

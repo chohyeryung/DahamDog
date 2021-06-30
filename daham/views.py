@@ -9,7 +9,7 @@ from django.core.paginator import Paginator
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 
-from daham.forms import BoardForm, CommentForm
+from daham.forms import BoardForm, CommentForm, ProfileForm, CustomUserChangeForm
 from daham.models import Board, Application, Comment, Profile
 
 
@@ -157,16 +157,13 @@ def profile(request):
         if user_change_form.is_valid() and profile_form.is_valid():
             user = user_change_form.save()
             profile_form.save()
-            return redirect('people', user.username)
+            return redirect('daham:mypage')
         return redirect('daham:profile')
     else:
         user_change_form = CustomUserChangeForm(instance=request.user)
         profile, create = Profile.objects.get_or_create(user=request.user)
         profile_form = ProfileForm(instance=profile)
-        return render(request, 'daham/profile.html', {
-            'user_change_form': user_change_form,
-            'profile_form': profile_form
-        })
+        return render(request, 'daham/profile_form.html', {'user_change_form': user_change_form, 'profile_form': profile_form})
 
 
 #함께할래요

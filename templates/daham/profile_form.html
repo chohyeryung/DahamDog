@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% load static %}
+
+{% block extrahead %}
+    <link rel="stylesheet" href="{% static 'css/profile_form.css' %}">
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"
+    />
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1 class="text-center">회원정보 변경</h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            {% if form.errors %}
+                <div role="alert">
+                    {% for field in form %}
+                        {% if field.errors %}
+                            <strong>{{ field.label }}</strong>
+                            {{ field.errors }}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% bootstrap_form user_change_form %}
+            {% bootstrap_form profile_form %}
+            {#            <div class="first-con">#}
+            {#                <input type="text" class="board-title" name="nickname" id="nickname" autocomplete="off"#}
+            {#                       value="{{ form.nickname.value|default_if_none:'' }}" placeholder="닉네임">#}
+            {##}
+            {#                <div class="fileBox">#}
+            {#                    <input type="text" class="fileName" readonly="readonly">#}
+            {#                    <label for="image" class="btn_file">#}
+            {#                        <img src="{% static 'img/image.png' %}" alt=""/>#}
+            {#                        프로필 사진 등록#}
+            {#                    </label>#}
+            {#                    <input type="file" id="image" value="{{ form.image.url|default_if_none:'' }}" name="image"#}
+            {#                           accept="image/*" class="uploadBtn">#}
+            {#                </div>#}
+            {#            </div>#}
+            {##}
+            {##}
+            {#            <textarea name="description" id="description" rows="7" autocomplete="off"#}
+            {#                      placeholder="한줄로 자신을 소개해주세요!">{{ form.description.value|default_if_none:'' }}</textarea>#}
+
+
+            <button type="submit" class="submit">등록</button>
+        </form>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript">
+        var uploadFile = $('.fileBox .uploadBtn');
+        uploadFile.on('change', function () {
+            if (window.FileReader) {
+                var filename = $(this)[0].files[0].name;
+            } else {
+                var filename = $(this).val().split('/').pop().split('\\').pop();
+            }
+            $(this).siblings('.fileName').val(filename);
+        });
+    </script>
+{% endblock %}
