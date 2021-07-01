@@ -5,9 +5,9 @@
     <a class="navbar-brand" href="{% url 'daham:index' %}"> <img src="{% static 'img/logo2.png' %}" alt=""/> </a>
     {% if user.is_authenticated %}
         <ul class="menu navbar">
-            <li class="nav-item">
-                <a href="{% url 'daham:intro' %}">다함개</a>
-            </li>
+{#            <li class="nav-item">#}
+{#                <a href="{% url 'daham:intro' %}">다함개</a>#}
+{#            </li>#}
             <li class="nav-item">
                 <a href="{% url 'daham:board' %}">함께하기</a>   <!-- 봉사 신청 -->
             </li>
@@ -25,9 +25,9 @@
         </ul>
     {% else %}
         <ul class="menu navbar">
-            <li class="nav-item">
-                <a href="{% url 'common:login' %}">다함개</a>
-            </li>
+{#            <li class="nav-item">#}
+{#                <a href="{% url 'common:login' %}">다함개</a>#}
+{#            </li>#}
             <li class="nav-item">
                 <a href="{% url 'common:login' %}">함께하기</a>   <!-- 봉사 신청 -->
             </li>
