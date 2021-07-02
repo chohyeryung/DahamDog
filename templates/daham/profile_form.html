@@ -33,8 +33,10 @@
 
             <div class="form-group"><label for="id_username">사용자 이름</label>
                 <input type="text" name="username"
-                       value="test" maxlength="150"
+                       value="{{ user_change_form.username.value|default_if_none:'' }}" maxlength="150"
                        class="form-control"
+                       autocomplete="off"
+                       style="font-weight: bold; color: gray"
                        placeholder="사용자 이름"
                        title="150자 이하 문자, 숫자 그리고 @/./+/-/_만 가능합니다."
                        required="" id="id_username">
@@ -42,31 +44,32 @@
             </div>
             <div class="form-group"><label for="id_email">이메일 주소</label>
                 <input type="email" name="email"
-                       value="test@naver.com"
+                       value="{{ user_change_form.email.value|default_if_none:'' }}"
                        maxlength="254"
                        class="form-control"
+                       autocomplete="off"
                        placeholder="이메일 주소" title=""
                        id="id_email"></div>
-            <div class="form-group"><label for="id_nickname">Nickname</label>
+            <div class="form-group"><label for="id_nickname">닉네임</label>
                 <input type="text" name="nickname"
-                       value="테스트" maxlength="40"
+                       value="{{ profile_form.nickname.value|default_if_none:'' }}" maxlength="40"
                        class="form-control"
-                       placeholder="Nickname"
+                       placeholder="닉네임"
+                       autocomplete="off"
                        title="" id="id_nickname">
             </div>
-            <div class="form-group"><label for="id_description">Description</label>
-                <textarea name="description"
-                          cols="40" rows="10"
-                          class="form-control"
-                          placeholder="Description"
-                          title=""
-                          id="id_description"></textarea>
+            <div class="form-group">
+                <label for="id_description">한줄 소개</label>
+                <textarea name="description" cols="40" rows="10" class="form-control"
+                          placeholder="자신을 표현할 수 있는 한 줄 소개를 적어주세요!" id="id_description">{{ profile_form.description.value}}</textarea>
             </div>
-            <div class="form-group"><label for="id_image">Image</label><br>
-                <input type="file" name="image"
-                       accept="image/*"
-                       class="form-control-file"
-                       title="" id="id_image">
+            <div class="form-group">
+                <div class="fileBox">
+                    <label for="image" class="btn_file"><img src="{% static 'img/image.png' %}" alt=""/></label>
+                    <input type="text" class="fileName" readonly="readonly">
+                    <input type="file" id="image" value="{{ profile_form.image.url|default_if_none:'' }}" name="image"
+                           accept="image/*" class="uploadBtn">
+                </div>
             </div>
             <button type="submit" class="submit">등록</button>
         </form>

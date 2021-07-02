@@ -3,6 +3,8 @@ from datetime import datetime
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 
 now = datetime.now()
 from django.core.paginator import Paginator
@@ -163,6 +165,7 @@ def mypage(request):
 
 
 @login_required(login_url='common:login')
+@method_decorator(csrf_exempt)
 def profile(request):
     if request.method == "POST":
         user_change_form = CustomUserChangeForm(request.POST, instance=request.user)

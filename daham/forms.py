@@ -24,6 +24,10 @@ class BoardForm(forms.ModelForm):
         model = Board
         fields = ['title', 'content', 'image', 'end_date']
 
+        widgets = {
+            'end_date': forms.DateInput(attrs={'placeholder': 'YYYY-MM-DD'})
+        }
+
 
 class CommentForm(forms.ModelForm):
     class Meta:
