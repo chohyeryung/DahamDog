@@ -27,31 +27,51 @@
                 </div>
             {% endif %}
 
-            {% bootstrap_form user_change_form %}
-            {% bootstrap_form profile_form %}
-            {#            <div class="first-con">#}
-            {#                <input type="text" class="board-title" name="nickname" id="nickname" autocomplete="off"#}
-            {#                       value="{{ form.nickname.value|default_if_none:'' }}" placeholder="닉네임">#}
-            {##}
-            {#                <div class="fileBox">#}
-            {#                    <input type="text" class="fileName" readonly="readonly">#}
-            {#                    <label for="image" class="btn_file">#}
-            {#                        <img src="{% static 'img/image.png' %}" alt=""/>#}
-            {#                        프로필 사진 등록#}
-            {#                    </label>#}
-            {#                    <input type="file" id="image" value="{{ form.image.url|default_if_none:'' }}" name="image"#}
-            {#                           accept="image/*" class="uploadBtn">#}
-            {#                </div>#}
-            {#            </div>#}
-            {##}
-            {##}
-            {#            <textarea name="description" id="description" rows="7" autocomplete="off"#}
-            {#                      placeholder="한줄로 자신을 소개해주세요!">{{ form.description.value|default_if_none:'' }}</textarea>#}
+            <input type="hidden" name="csrfmiddlewaretoken"
+                   value="gZqCdZsuztGYUOU3ANj6CFye4VSda7axElbqnzgSiLjhB35waq7gBIYdmv6krbWd">
 
 
+            <div class="form-group"><label for="id_username">사용자 이름</label>
+                <input type="text" name="username"
+                       value="test" maxlength="150"
+                       class="form-control"
+                       placeholder="사용자 이름"
+                       title="150자 이하 문자, 숫자 그리고 @/./+/-/_만 가능합니다."
+                       required="" id="id_username">
+                <small class="form-text text-muted">150자 이하 문자, 숫자 그리고 @/./+/-/_만 가능합니다.</small>
+            </div>
+            <div class="form-group"><label for="id_email">이메일 주소</label>
+                <input type="email" name="email"
+                       value="test@naver.com"
+                       maxlength="254"
+                       class="form-control"
+                       placeholder="이메일 주소" title=""
+                       id="id_email"></div>
+            <div class="form-group"><label for="id_nickname">Nickname</label>
+                <input type="text" name="nickname"
+                       value="테스트" maxlength="40"
+                       class="form-control"
+                       placeholder="Nickname"
+                       title="" id="id_nickname">
+            </div>
+            <div class="form-group"><label for="id_description">Description</label>
+                <textarea name="description"
+                          cols="40" rows="10"
+                          class="form-control"
+                          placeholder="Description"
+                          title=""
+                          id="id_description"></textarea>
+            </div>
+            <div class="form-group"><label for="id_image">Image</label><br>
+                <input type="file" name="image"
+                       accept="image/*"
+                       class="form-control-file"
+                       title="" id="id_image">
+            </div>
             <button type="submit" class="submit">등록</button>
         </form>
     </div>
+
 {% endblock %}
 
 {% block script %}
