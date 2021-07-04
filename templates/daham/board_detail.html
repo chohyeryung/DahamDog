@@ -89,9 +89,6 @@
             {% for comment in board.comment_set.all %}
                 <div class="comment-info">
                     <div class="info one">
-                        <img {% if person.profile.image %} src="{{ person.profile.image.url }}"
-                                                           {% else %}src="https://i.stack.imgur.com/34AD2.jpg"{% endif %}
-                                                           class="user-img" alt="">
                         <div class="one-one">
                             <h5>{{ comment.profile.nickname }}</h5>
                             <h6>{{ comment.created_date|date:'Y-m-d' }}</h6>

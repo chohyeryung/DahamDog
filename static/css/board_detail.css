@@ -104,6 +104,7 @@ h1 {
 
 .contents h4{
     margin-bottom: 40px;
+    width:70%;
 }
 
 .board-img {
@@ -154,7 +155,6 @@ h1 {
 }
 
 .comment-info .second h5{
-    margin-left: 10px;
     margin-top: 20px;
 }
 

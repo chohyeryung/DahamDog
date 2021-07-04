@@ -79,7 +79,6 @@ def board_update(request, board_id):
             user = request.user
             profile = Profile.objects.get(user=user)
             board.profile = profile
-            board.end_date = timezone.now()
             board.image = form.cleaned_data['image']
             board.save()
             return redirect('daham:detail', board_id=board.id)
